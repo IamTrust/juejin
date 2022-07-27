@@ -23,8 +23,8 @@
     'title': '8月更文活动开始啦！7月27日-31日发文每天抽取抖音中秋礼盒！', 
     'brief': '在这个热情的8月，「掘金·日新计划」再次起航，超多创作奖励等你来拿！', 
     'url': 'https://juejin.cn/post/7123120819437322247?utm_source=web1&utm_medium=feed&utm_campaign=gengwen202208', 
-    'picture': 'https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/11ec0fe4f2024ad294098c0a5132af43~tplv-k3u1fbpfcp-watermark.image?', 		  		'avatar': 
-    'https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/mirror-assets/168e0858b6ccfd57fe5~tplv-t2oaga2asx-image.image', 
+    'picture': 'https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/11ec0fe4f2024ad294098c0a5132af43~tplv-k3u1fbpfcp-watermark.image?', 		  		 
+    'avatar': 'https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/mirror-assets/168e0858b6ccfd57fe5~tplv-t2oaga2asx-image.image', 
     'start_time': '0', 
     'end_time': '0', 
     'ctime': '1658730503', 
