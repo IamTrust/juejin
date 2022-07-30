@@ -5,11 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import edu.gdut.juejinserver.pojo.ArticleInfo;
 import edu.gdut.juejinserver.service.ArticleInfoService;
 import edu.gdut.juejinserver.utils.Result;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -23,6 +19,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/juejinserver/index_data")
+@CrossOrigin
 public class ArticleInfoController {
 
     @Resource
