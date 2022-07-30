@@ -1,12 +1,17 @@
 package edu.gdut.juejinserver.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import edu.gdut.juejinserver.pojo.ArticleInfo;
+import edu.gdut.juejinserver.service.ArticleInfoService;
 import edu.gdut.juejinserver.utils.Result;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -17,8 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-07-30
  */
 @RestController
-@RequestMapping("/juejinserver/article-info")
+@RequestMapping("/juejinserver/index_data")
 public class ArticleInfoController {
+
+    @Resource
+    private ArticleInfoService articleInfoService;
 
     /**
      * 分页查询首页文章
@@ -28,7 +36,9 @@ public class ArticleInfoController {
      */
     @GetMapping("/find_article/{current}/{limit}")
     public Result findIndexArticle(@PathVariable Integer current, @PathVariable Integer limit) {
-        return null;
+        Page<ArticleInfo> page = new Page<>(current, limit);
+        articleInfoService.page(page, null);
+        return Result.success().data("article_info", page.getRecords());
     }
 
 }

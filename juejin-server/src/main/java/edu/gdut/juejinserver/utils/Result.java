@@ -1,8 +1,12 @@
 package edu.gdut.juejinserver.utils;
 
 
+import lombok.Data;
+
+import java.util.HashMap;
 import java.util.Map;
 
+@Data
 public class Result {
 
     private Boolean isSuccess;
@@ -15,7 +19,7 @@ public class Result {
 
     /*构造方法私有化*/
     private Result() {
-
+        data = new HashMap<>();
     }
 
     public static Result success() {
