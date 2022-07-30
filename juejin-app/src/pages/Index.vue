@@ -14,7 +14,8 @@
                 </div>
                 <div class="list__content">
                     <ul class="article__list">
-                        <li class="list__item">
+
+                        <li v-for="article in articleInfoList" :key="article.articleId" class="list__item">
                             <div class="entry">
                                 <div class="article__inform">
                                     <div class="nav__list">
@@ -28,33 +29,33 @@
                                 <div class="article__content">
                                     <div class="content-main">
                                         <div class="title">
-                                            <a href="#" class="title">如何在React中应用SOLID原则？</a>
+                                            <a href="#" class="title">{{article.title}}</a>
                                         </div>
                                         <div class="abstract">
                                             <a href="#">
-                                                <div>大家好，我是CUGGZ。 在面向对象编程（OOP）中，SOLID 原则是设计模式的基础，它的每个字母代表一种设计原则：
-                                                    单一职责原则（SRP） 开放封闭原则（OCP） 里氏替换原则（LSP） 接口隔离</div>
+                                                <div>{{article.briefContent}}</div>
                                             </a>
                                         </div>
                                         <ul class="action-list">
                                             <li class="item">
                                                 <i class="eye"></i>
-                                                <span>651</span>
+                                                <span>{{article.viewCount}}</span>
                                             </li>
                                             <li class="item">
                                                 <i class="zan"></i>
-                                                <span>20</span>
+                                                <span>{{article.diggCount}}</span>
                                             </li>
                                             <li class="item">
                                                 <i class="cloud"></i>
-                                                <span>6</span>
+                                                <span>{{article.commentCount}}</span>
                                             </li>
                                         </ul>
                                     </div>
-                                    <img src="../assets/img/article__01.png" alt="" class="lazy">
+                                    <img :src="article.coverImage" alt="" class="lazy">
                                 </div>
                             </div>
                         </li>
+
                     </ul>
                 </div>
             </div>
@@ -65,12 +66,44 @@
 <script>
     import "../assets/css/page__header.css"
     import "../assets/css/page__main.css"
+    import article from "../api/article"
 
     export default {
         data() {
             return {
-                articleInfo: {}
+                articleInfoList: [],
+                current: 1, // 当前页
+                limit: 20   // 每页记录数
             }
+        },
+        methods: {
+            // 获取数据
+            getArticleInfoList(current, limit) {
+                if (current) this.current = current
+                if (limit) this.limit = limit
+                article.getArticleInfo(this.current, this.limit).then(resp => {
+                    this.articleInfoList = resp.data.data.article_info
+                })
+            },
+            // 滚动到底部后加载数据
+            lasyLoading() {
+                let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+                let clientHeight = document.documentElement.clientHeight
+                let scrollHeight = document.documentElement.scrollHeight
+                if (scrollTop + clientHeight >= scrollHeight) {
+                    // 滚动到了页面底部
+                    // 再次请求数据
+                    this.limit += 20;
+                    this.getArticleInfoList()
+                }
+            }
+        },
+        created() {
+            window.addEventListener("scroll", this.lasyLoading)   // 监听滚动到底部事件
+            this.getArticleInfoList()
+        },
+        destroyed() {
+            window.removeEventListener("scroll", this.lasyLoading)    // 销毁监听事件
         }
     }
 </script>
