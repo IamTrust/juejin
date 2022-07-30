@@ -10,17 +10,33 @@
 
 ## 前端部分
 
+### 启动
+
+#### 进入`juejin-app`目录
+
+```
+cd juejin-app
+```
+
+#### 安装依赖
+
+```
+npm install
+```
+
+#### 启动服务器
+
+```
+npm run serve
+```
+
+
+
+### 进度
+
 无限滚动已经简单实现，没有优化：
 
 ![](https://pictures-1312398124.cos.ap-guangzhou.myqcloud.com/20220731005119.png)
 
-### 食用
-
-```
-cd juejiin-app
-
-npm install
-
-npm run serve
-```
+### 
 
