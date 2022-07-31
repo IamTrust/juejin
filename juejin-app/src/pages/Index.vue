@@ -20,9 +20,9 @@
                                 <div class="article__inform">
                                     <div class="nav__list">
                                         <ul>
-                                            <li><a href="">DS小龙哥</a></li>
+                                            <li><a href="">{{article.userName}}</a></li>
                                             <li><a href="" >{{article.mtime}}</a></li>
-                                            <li><a href="">前端</a></li>
+                                            <li><a href="">{{article.tagNames}}</a></li>
                                         </ul>
                                     </div>
                                 </div>
