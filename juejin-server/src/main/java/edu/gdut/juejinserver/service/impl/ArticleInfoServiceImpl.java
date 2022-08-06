@@ -11,6 +11,7 @@ import edu.gdut.juejinserver.pojo.Tags;
 import edu.gdut.juejinserver.service.ArticleInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import edu.gdut.juejinserver.vo.ArticleInfoVo;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -37,6 +38,7 @@ public class ArticleInfoServiceImpl extends ServiceImpl<ArticleInfoMapper, Artic
     private TagsMapper tagsMapper;
 
     @Override
+    @Cacheable(value = "juejin", key = "'articleList' + #current + 'Current' + #limit + 'Limit'")
     public List<ArticleInfoVo> queryArticleInfoList(int current, int limit) {
         List<ArticleInfoVo> list = new ArrayList<>();
         // 分页查询article数据
