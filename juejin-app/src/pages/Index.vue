@@ -97,7 +97,7 @@
                     //     })
                     // );
                    
-                    this.articleInfoList = arr;
+                    this.articleInfoList.push(...arr);
                 })
             },
             // 滚动到底部后加载数据
@@ -108,7 +108,7 @@
                 if (scrollTop + clientHeight >= scrollHeight) {
                     // 滚动到了页面底部
                     // 再次请求数据
-                    this.limit += 20;
+                    this.current++;
                     this.getArticleInfoList()
                 }
             },
