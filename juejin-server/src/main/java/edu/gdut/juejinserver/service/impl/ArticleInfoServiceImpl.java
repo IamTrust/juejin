@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -79,19 +80,26 @@ public class ArticleInfoServiceImpl extends ServiceImpl<ArticleInfoMapper, Artic
 
             // tagIds和tagNames
             // tagIds: [123, 456, 789, 2142]
+            // 特殊情况：只有一个tag的：[123]
             String tagIds = article.getTagIds();
             tagIds = tagIds.substring(1, tagIds.length() - 1);  // 去掉中括号
             // tagIds = tagIds.trim(); // 这个方法只能去除首尾空格
             tagIds = tagIds.replace(" ", "");
-            String[] tagIdsArr = tagIds.split(",");
+            // 处理特殊情况：[123], 根据有没有逗号来判断
+            String[] tagIdsArr = null;
+            if (tagIds.contains(",")) {
+                tagIdsArr = tagIds.split(",");
+            } else {
+                tagIdsArr = new String[]{tagIds};
+            }
             vo.setTagsIds(tagIdsArr);
             // 根据tagId查tagName
-            String[] tagNames = new String[tagIdsArr.length];
+            List<String> tagNames = new ArrayList<>();
             for (int i = 0; i < tagIdsArr.length; i++) {
                 QueryWrapper<Tags> wrapper = new QueryWrapper<>();
                 wrapper.eq("tag_id", tagIdsArr[i]);
                 Tags tag = tagsMapper.selectOne(wrapper);
-                if (tag != null) tagNames[i] = tag.getTagName();
+                if (tag != null) tagNames.add(tag.getTagName());
             }
             // 设置tagNames
             vo.setTagNames(tagNames);

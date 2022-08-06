@@ -2,6 +2,8 @@ package edu.gdut.juejinserver.vo;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 文章数据
  */
@@ -16,7 +18,7 @@ public class ArticleInfoVo {
 
     private String[] tagsIds;
 
-    private String[] tagNames;
+    private List<String> tagNames;
 
     private String ctime;
 
