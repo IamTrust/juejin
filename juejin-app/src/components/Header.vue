@@ -126,6 +126,13 @@
             </div>
 
         </div>
+
+        <!-- 一键回到顶部 -->
+        <div class="page__header__side" v-if="headerSide">
+            <a href="javascript:scroll(0,0)"><div class="backTop">
+                <img src="../assets/img/top.png" alt="">
+            </div></a>
+        </div>
     </div>    
 </template>
 
@@ -136,6 +143,7 @@
         data() {
             return {
                 headerNavSign: true,
+                headerSide: false,
                 oldScrollTop: 0,
             }
         },
@@ -154,6 +162,16 @@
                     } else {
                         this.headerNavSign = false;
                     }
+                }
+                // 回到顶部是显示头部导航栏
+                if(scrollTop == 0){
+                    this.headerNavSign = true;
+                }
+                // 一键回到页面顶部
+                if(scrollTop > 800){
+                    this.headerSide = true;
+                }else{
+                    this.headerSide = false;
                 }
             }
         },

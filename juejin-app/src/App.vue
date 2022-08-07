@@ -1,7 +1,8 @@
 <template>
-  <div id="app">
+  <div id="app"> 
     <Header />
-    <Index />  
+    <Index />
+   
   </div>
 </template>
 

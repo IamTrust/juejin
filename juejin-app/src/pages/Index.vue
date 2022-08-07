@@ -1,8 +1,8 @@
 <template>
-    <div class="page__main">
+    <div class="page__main" ref="listWrap" >
         <div class="page__main__contents">
-            <div class="contents__list">
-                <div class="list__header">
+            <div class="contents__list" ref="scrollBar">
+                <div class="list__header" >
                     <div class="nav__list">
                         <ul>
                             <li><a href="" style="color: #1e80ff;">推荐</a></li>
@@ -10,19 +10,22 @@
                             <li><a href="">热榜</a></li>
                         </ul>
                     </div>
-
                 </div>
-                <div class="list__content">
-                    <ul class="article__list">
 
-                        <li v-for="article in articleInfoList" :key="article.articleId" class="list__item">
+                <div class="list__content">
+                    <ul class="article__list" ref="list">
+                        <li v-for="article in showList" :key="article.articleId" class="list__item">
                             <div class="entry">
                                 <div class="article__inform">
                                     <div class="nav__list">
                                         <ul>
                                             <li><a href="">{{article.userName}}</a></li>
                                             <li><a href="" >{{article.mtime}}</a></li>
-                                            <li><a href="">{{article.tagNames}}</a></li>
+                                            <li class="tag__a">
+                                                <div class="tag__name" v-for="(tag, index) in article.tagNames" :key="index">
+                                                    <a href="">{{tag}}</a>
+                                                </div>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -57,7 +60,6 @@
                                 </div>
                             </div>
                         </li>
-
                     </ul>
                 </div>
             </div>
@@ -75,10 +77,39 @@
             return {
                 articleInfoList: [],
                 current: 1, // 当前页
-                limit: 20   // 每页记录数
+                limit: 20,   // 每页记录数
+
+                itemHeight: 136,//每一列的高度
+                showNum: 10,//显示几条数据
+                start: 0,//滚动过程显示的开始索引
+                end: 10,//滚动过程显示的结束索引
             }
         },
+        updated(){
+            //计算全部数据需要的高度，撑开滚动条高度
+            this.$refs.scrollBar.style.height = this.itemHeight * this.articleInfoList.length + 'px';
+        },
+        computed: {
+            //显示的数组，用计算属性计算
+            showList(){  return this.articleInfoList.slice(this.start, this.end);  }
+        },
         methods: {
+            // 计算呈现在页面上列表开头和结尾的位置
+            scrollListener(scrollTop){
+                // //计算总的数据需要的高度，构造滚动条高度
+                this.$refs.scrollBar.style.height = this.itemHeight * this.articleInfoList.length + 'px';
+                //开始的数组索引
+                let first = Math.floor(scrollTop / this.itemHeight) - 1;
+                if(first<0){
+                    this.start = 0;
+                }else{
+                    this.start = first
+                }
+                //结束索引
+                this.end = this.start + this.showNum;
+                //定位列表的顶部的偏移量
+                this.$refs.list.style.marginTop = this.start * this.itemHeight + 'px';
+            },
             // 获取数据
             getArticleInfoList(current, limit){
                 if (current) this.current = current
@@ -91,11 +122,6 @@
                         arr[i].diggCount = this.setAction(e.diggCount,2);
                         arr[i].commentCount = this.setAction(e.commentCount,3);
                     })
-                    // arr.sort((
-                    //     function randomSort(a, b) { 
-                    //         return Math.random() > 0.5 ? -1 : 1; 
-                    //     })
-                    // );
                    
                     this.articleInfoList.push(...arr);
                 })
@@ -106,11 +132,10 @@
                 let clientHeight = document.documentElement.clientHeight
                 let scrollHeight = document.documentElement.scrollHeight
                 if (scrollTop + clientHeight >= scrollHeight) {
-                    // 滚动到了页面底部
-                    // 再次请求数据
                     this.current++;
                     this.getArticleInfoList()
                 }
+                this.scrollListener(scrollTop);
             },
             // 时间戳转为距今多久
             getLocalTime(dateTime) {
@@ -163,12 +188,14 @@
                 }
             }
         },
+        // 监听滚动到底部事件
         created() {
-            window.addEventListener("scroll", this.lasyLoading)   // 监听滚动到底部事件
+            window.addEventListener("scroll", this.lasyLoading);
             this.getArticleInfoList();
         },
+        // 销毁监听事件
         destroyed() {
-            window.removeEventListener("scroll", this.lasyLoading)    // 销毁监听事件
+            window.removeEventListener("scroll", this.lasyLoading)    
         }
     }
 </script>
