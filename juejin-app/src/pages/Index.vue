@@ -32,7 +32,7 @@
                                 <div class="article__content">
                                     <div class="content-main">
                                         <div class="title">
-                                            <a href="#" class="title">{{article.title}}</a>
+                                            <router-link :to="`/detail/${article.articleId}`" class="title">{{article.title}}</router-link>
                                         </div>
                                         <div class="abstract">
                                             <a href="#">
