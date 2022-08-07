@@ -54,18 +54,9 @@ npm install
 npm run serve
 ```
 
+#### 访问URL
 
+http://localhost:8080
 
-### 进度
-
-* 无限滚动已经简单实现，没有优化：
-
-    ![](https://pictures-1312398124.cos.ap-guangzhou.myqcloud.com/20220731005119.png)
-
-* 文章列表样式调整基本完成，缺少数据：文章作者、文章类型。
-* 滚动条下滑导航栏消失已实现，缺少过渡动画。
-
-### 没有实现的：
-* 点击搜索框变长，创作者中心消失。
-* 右下角点击回到顶部。
+![](https://pictures-1312398124.cos.ap-guangzhou.myqcloud.com/20220807164421.png)
 
