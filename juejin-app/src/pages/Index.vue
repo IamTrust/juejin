@@ -1,5 +1,29 @@
 <template>
     <div class="page__main" ref="listWrap" >
+        <!-- 导航标签 -->
+        <div class="page__header__tag" ref="pageHeaderTag">
+            <div class="tag__contents" ref="tagContent">
+                <div class="tag__list">
+                    <ul class="list__contents">
+                        <li><a href="#" style="color: #1e80ff;">综合</a></li>
+                        <li><a href="#">关注</a></li>
+                        <li><a href="#">后端</a></li>
+                        <li><a href="#">前端</a></li>
+                        <li><a href="#">Android</a></li>
+                        <li><a href="#">iOS</a></li>
+                        <li><a href="#">人工智能</a></li>
+                        <li><a href="#">开发工具</a></li>
+                        <li><a href="#">代码人生</a></li>
+                        <li><a href="#">阅读</a></li>
+                    </ul>
+                </div>
+                <div class="tag__manage" ref="tagManage">
+                    <span><a href="#">标签管理</a></span>
+                </div>
+            </div> 
+        </div>
+
+        <!-- 文章列表 -->
         <div class="page__main__contents">
             <div class="contents__list" ref="scrollBar">
                 <div class="list__header" >
@@ -71,6 +95,7 @@
     import "../assets/css/page__header.css"
     import "../assets/css/page__main.css"
     import article from "../api/article"
+    import eventBus from "../assets/js/EventBus"
 
     export default {
         data() {
@@ -83,6 +108,10 @@
                 showNum: 10,//显示几条数据
                 start: 0,//滚动过程显示的开始索引
                 end: 10,//滚动过程显示的结束索引
+
+                headerNavSign: true,
+
+                screenWidth: document.body.clientWidth
             }
         },
         updated(){
@@ -94,6 +123,12 @@
             showList(){  return this.articleInfoList.slice(this.start, this.end);  }
         },
         methods: {
+            getHeaderData(){
+                // 通过事件总线监听消息
+                eventBus.$on('pushMsg', (children1Msg) => {
+                    this.headerNavSign = children1Msg
+                })
+            },
             // 计算呈现在页面上列表开头和结尾的位置
             scrollListener(scrollTop){
                 // //计算总的数据需要的高度，构造滚动条高度
@@ -134,6 +169,11 @@
                 if (scrollTop + clientHeight >= scrollHeight) {
                     this.current++;
                     this.getArticleInfoList()
+                }
+                if(this.headerNavSign){
+                    this.$refs.pageHeaderTag.style.marginTop = '60px';
+                }else{
+                    this.$refs.pageHeaderTag.style.marginTop = '0px'
                 }
                 this.scrollListener(scrollTop);
             },
@@ -188,10 +228,47 @@
                 }
             }
         },
+        watch:{
+            screenWidth(val){
+                // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
+                if(!this.timer){
+                    // 一旦监听到的screenWidth值改变，就将其重新赋给data里的screenWidth
+                    this.screenWidth = val
+                    this.timer = true
+                    let that = this
+                    setTimeout(function(){
+                        // 打印screenWidth变化的值
+                        console.log(that.screenWidth)
+                        if(that.screenWidth < 960){
+                            that.$refs.tagContent.style.width = that.screenWidth + 'px';
+                            that.$refs.tagManage.style.display = 'none';
+
+                        }else{
+                            that.$refs.tagContent.style.width = '960px';
+                            that.$refs.tagManage.style.display = 'flex';
+                        }
+                        if(that.screenWidth < 660){
+                            that.$refs.tagContent.style.width = '660px';
+                        }
+                        that.timer = false;
+                    },400)
+                }
+            }
+        },
+        mounted () {
+            const self = this;
+            window.onresize = () => {
+                return (() => {
+                    window.screenWidth = document.body.clientWidth
+                    self.screenWidth = window.screenWidth
+                })()
+            }
+        },
         // 监听滚动到底部事件
         created() {
             window.addEventListener("scroll", this.lasyLoading);
             this.getArticleInfoList();
+            this.getHeaderData();
         },
         // 销毁监听事件
         destroyed() {

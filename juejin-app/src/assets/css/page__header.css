@@ -434,50 +434,8 @@ input:checked~label .more__tri {
     border-radius: 50%;
 }
 
-/* 标签页面 */
-.page__header__tag{
-    width: 100%;
-    height: 46px;
-    /* background: rgba(17, 244, 96, 0.228); */
-}
-.page__header__tag::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-    background-color: var(--juejin-font-4);
-    transform: scaleY(0.5);
-}
-.tag__contents{
-    height: 100%;
-    /* background: rgba(239, 24, 24, 0.199); */
-    margin: 0 280px;
-    display: flex;
-    justify-content: space-between;
-}
-.tag__list{
-    display: flex;
-    height: 100%;
-}
-.tag__manage{
-    display: flex;
-    align-items: center;
-}
-.tag__manage > span{
-    font-size: .9rem;
-    color: var(--juejin-font-2);
-}
-.page__header__tag a:hover{
-    color: var(--juejin-brand-1-normal);
-}
-.tag__list .list__contents{
-    margin-left: 0;
-}
-.tag__list li:nth-child(1){
-    margin-left: 0;
-}
 
+/* 一键回到顶部 */
 .page__header__side{
     width: 38px;
     height: 38px;

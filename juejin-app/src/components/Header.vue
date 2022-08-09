@@ -1,5 +1,5 @@
 <template>
-    <div class="page__header" id="header">
+    <div class="page__header">
         <!-- 导航内容 -->
         <div class="page__header__nav" v-if="headerNavSign">
             <div class="nav__sign">
@@ -103,30 +103,6 @@
             </div>
         </div>
 
-        <!-- 导航标签 -->
-        <div class="page__header__tag">
-            <div class="tag__contents">
-                <div class="tag__list">
-                    <ul class="list__contents">
-                        <li><a href="#" style="color: #1e80ff;">综合</a></li>
-                        <li><a href="#">关注</a></li>
-                        <li><a href="#">后端</a></li>
-                        <li><a href="#">前端</a></li>
-                        <li><a href="#">Android</a></li>
-                        <li><a href="#">iOS</a></li>
-                        <li><a href="#">人工智能</a></li>
-                        <li><a href="#">开发工具</a></li>
-                        <li><a href="#">代码人生</a></li>
-                        <li><a href="#">阅读</a></li>
-                    </ul>
-                </div>
-                <div class="tag__manage">
-                    <span><a href="#">标签管理</a></span>
-                </div>
-            </div>
-
-        </div>
-
         <!-- 一键回到顶部 -->
         <div class="page__header__side" v-if="headerSide">
             <a href="javascript:scroll(0,0)"><div class="backTop">
@@ -138,6 +114,7 @@
 
 <script>
     import "../assets/css/page__header.css"
+    import eventBus from "../assets/js/EventBus"
 
     export default {
         data() {
@@ -159,13 +136,16 @@
                     this.oldScrollTop = scrollTop;
                     if (scrollStep < 0) {
                         this.headerNavSign = true;
+                        this.pushMsg();
                     } else {
                         this.headerNavSign = false;
+                        this.pushMsg();
                     }
                 }
                 // 回到顶部是显示头部导航栏
                 if(scrollTop == 0){
                     this.headerNavSign = true;
+                    this.pushMsg();
                 }
                 // 一键回到页面顶部
                 if(scrollTop > 800){
@@ -173,6 +153,10 @@
                 }else{
                     this.headerSide = false;
                 }
+            },
+            pushMsg(){
+            	// 通过事件总线发送消息
+                eventBus.$emit('pushMsg',this.headerNavSign)
             }
         },
         created() {
