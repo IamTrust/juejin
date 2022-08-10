@@ -1,298 +1,319 @@
 <template>
   <div class="page">
-      <div class="page__header"></div>
       <div class="page__main">
-          <div class="article-main">
-              <!-- 文章内容 与 评论区域 -->
-              <div class="article-area">
-                  <!-- 文章主体区域 -->
-                  <div class="article">
-                      <!-- 标题 -->
-                      <div class="article-title">分布式架构下的几个关键问题分布式架构下的几个关键问题分布式架构下的几个关键问题</div>
+        <!-- 文章区域 -->
+        <div class="article-main">
+            <!-- 文章内容 与 评论区域 -->
+            <div class="article-area">
+                <!-- 文章主体区域 -->
+                <div class="article">
+                    <!-- 标题 -->
+                    <div class="article-title">分布式架构下的几个关键问题分布式架构下的几个关键问题分布式架构下的几个关键问题</div>
 
-                      <!-- 作者信息区域 -->
-                      <div class="article-info-box">
-                          <a href="" class="user-photo">
-                              <img src="../assets/img/user.png" alt="">
-                          </a>
-                          <div class="author-info">
-                              <div class="author-name">
-                                  <span class="name">想不到一个好的ID</span>
-                                  <span><img src="../assets/img/lv-2.png" alt=""></span>
-                              </div>
-                              <div class="meta-box">
-                                  <span class="time">2022年08月07日 22:23</span>
-                                  <span>阅读 167</span>
-                              </div>
-                          </div>
-                          <button class="follow-btn">+ 关注</button>
-                      </div>
+                    <!-- 作者信息区域 -->
+                    <div class="article-info-box">
+                        <a href="" class="user-photo">
+                            <img src="../assets/img/user.png" alt="">
+                        </a>
+                        <div class="author-info">
+                            <div class="author-name">
+                                <span class="name">想不到一个好的ID</span>
+                                <span><img src="../assets/img/lv-2.png" alt=""></span>
+                            </div>
+                            <div class="meta-box">
+                                <span class="time">2022年08月07日 22:23</span>
+                                <span>阅读 167</span>
+                            </div>
+                        </div>
+                        <button class="follow-btn">+ 关注</button>
+                    </div>
 
-                      <!-- 文章图片展示（可能没有） -->
-                      <div class="article-img">
-                          <img src="../assets/img/article__01.png" alt="">
-                      </div>
+                    <!-- 文章图片展示（可能没有） -->
+                    <div class="article-img">
+                        <img src="../assets/img/article__01.png" alt="">
+                    </div>
 
-                      <!-- 文章主体内容 -->
-                      <div class="article-content"></div>
-                      
-                      <!-- 文章标签区域 -->
-                      <div class="tag-list-box">
-                          <div class="list">分类：
-                              <span>后端</span>
-                          </div>
-                          <div class="list">标签：
-                              <span>后端</span>
-                              <span>后端</span>
-                              <span>后端</span>
-                          </div>
-                      </div>
-                  </div>
+                    <!-- 文章主体内容 -->
+                    <div class="article-content"></div>
+                    
+                    <!-- 文章标签区域 -->
+                    <div class="tag-list-box">
+                        <div class="list">分类：
+                            <span>后端</span>
+                        </div>
+                        <div class="list">标签：
+                            <span>后端</span>
+                            <span>后端</span>
+                            <span>后端</span>
+                        </div>
+                    </div>
+                </div>
 
-                  <!-- 评论区 -->
-                  <div class="comment">
-                      <!-- 发送评论 -->
-                      <div class="comment-form">
-                          <div class="form-header">评论</div>
-                          <div class="form-content">
-                              <div class="form-userimg">
-                                  <img src="../assets/img/user.png" alt="">
-                              </div>
-                              <div class="form-box">
-                                  <textarea name="" id="" cols="92" rows="3" style="resize:none" placeholder="输入评论 (Enter换行，Ctrl + Enter发送)"></textarea>
-                                  <div class="action-box">
-                                      <div class="emoji-btn">😀表情</div>
-                                      <div class="image-btn">🖼图片</div>
-                                      <div class="submit-box">
-                                          <span>Ctrl + Enter</span>
-                                          <button class="submit">发表评论</button>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
+                <!-- 评论区 -->
+                <div class="comment">
+                    <!-- 发送评论 -->
+                    <div class="comment-form">
+                        <div class="form-header">评论</div>
+                        <div class="form-content">
+                            <div class="form-userimg">
+                                <img src="../assets/img/user.png" alt="">
+                            </div>
+                            <div class="form-box">
+                                <textarea name="" id="" cols="92" rows="3" style="resize:none" placeholder="输入评论 (Enter换行，Ctrl + Enter发送)"></textarea>
+                                <div class="action-box">
+                                    <div class="emoji-btn">😀表情</div>
+                                    <div class="image-btn">🖼图片</div>
+                                    <div class="submit-box">
+                                        <span>Ctrl + Enter</span>
+                                        <button class="submit">发表评论</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                      <!-- 热门评论 -->
-                      <div class="hot-list">
-                          <div class="title">
-                              <span>热门评论</span>
-                              <img src="../assets/img/fire.png" alt="">
-                          </div>
-                          <div class="list">
-                              <!-- 一条评论 -->
-                              <div class="comment-item">
-                                  <div class="comment-userImg">
-                                      <a href="" class="userImg">
-                                          <img src="../assets/img/user.png" alt="">
-                                      </a>
-                                  </div>
-                                  <div class="comment-content">
-                                      <div class="comment-main">
-                                          <div class="user-box">
-                                              <span class="name">青山绿水长流</span>
-                                              <span class="level"><img src="../assets/img/lv-2.png" alt=""></span>
-                                              <span class="jueyou-level"><img src="../assets/img/jy.png" alt=""></span>
-                                              <span class="position">移动端开发</span>
-                                              <span class="time">1个月</span>
-                                          </div>
-                                          <div class="content-main">hi，想问你一个问题，flutter如何做长截屏？</div>
-                                          <div class="comment-action-box">
-                                              <div class="item-zan">
-                                                  <img src="../assets/img/zan__off.png" alt="">点赞
-                                              </div>
-                                              <div class="item-comNum">
-                                                  <img src="../assets/img/ping.png" alt="">回复
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="subcomment-wrapper"></div>
-                                  </div>
-                              </div>
+                    <!-- 热门评论 -->
+                    <div class="hot-list">
+                        <div class="title">
+                            <span>热门评论</span>
+                            <img src="../assets/img/fire.png" alt="">
+                        </div>
+                        <div class="list">
+                            <!-- 一条评论 -->
+                            <div class="comment-item">
+                                <div class="comment-userImg">
+                                    <a href="" class="userImg">
+                                        <img src="../assets/img/user.png" alt="">
+                                    </a>
+                                </div>
+                                <div class="comment-content">
+                                    <div class="comment-main">
+                                        <div class="user-box">
+                                            <span class="name">青山绿水长流</span>
+                                            <span class="level"><img src="../assets/img/lv-2.png" alt=""></span>
+                                            <span class="jueyou-level"><img src="../assets/img/jy.png" alt=""></span>
+                                            <span class="position">移动端开发</span>
+                                            <span class="time">1个月</span>
+                                        </div>
+                                        <div class="content-main">hi，想问你一个问题，flutter如何做长截屏？</div>
+                                        <div class="comment-action-box">
+                                            <div class="item-zan">
+                                                <img src="../assets/img/zan__off.png" alt="">点赞
+                                            </div>
+                                            <div class="item-comNum">
+                                                <img src="../assets/img/ping.png" alt="">回复
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="subcomment-wrapper"></div>
+                                </div>
+                            </div>
 
-                              <div class="comment-item">
-                                  <div class="comment-userImg">
-                                      <a href="" class="userImg">
-                                          <img src="../assets/img/user.png" alt="">
-                                      </a>
-                                  </div>
-                                  <div class="comment-content">
-                                      <div class="comment-main">
-                                          <div class="user-box">
-                                              <span class="name">青山绿水长流</span>
-                                              <span class="level"><img src="../assets/img/lv-2.png" alt=""></span>
-                                              <span class="jueyou-level"><img src="../assets/img/jy.png" alt=""></span>
-                                              <span class="position">移动端开发</span>
-                                              <span class="time">1个月</span>
-                                          </div>
-                                          <div class="content-main">hi，想问你一个问题，flutter如何做长截屏？</div>
-                                          <div class="comment-action-box">
-                                              <div class="item-zan">
-                                                  <img src="../assets/img/zan__off.png" alt="">点赞
-                                              </div>
-                                              <div class="item-comNum">
-                                                  <img src="../assets/img/ping.png" alt="">回复
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="subcomment-wrapper"></div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
+                            <div class="comment-item">
+                                <div class="comment-userImg">
+                                    <a href="" class="userImg">
+                                        <img src="../assets/img/user.png" alt="">
+                                    </a>
+                                </div>
+                                <div class="comment-content">
+                                    <div class="comment-main">
+                                        <div class="user-box">
+                                            <span class="name">青山绿水长流</span>
+                                            <span class="level"><img src="../assets/img/lv-2.png" alt=""></span>
+                                            <span class="jueyou-level"><img src="../assets/img/jy.png" alt=""></span>
+                                            <span class="position">移动端开发</span>
+                                            <span class="time">1个月</span>
+                                        </div>
+                                        <div class="content-main">hi，想问你一个问题，flutter如何做长截屏？</div>
+                                        <div class="comment-action-box">
+                                            <div class="item-zan">
+                                                <img src="../assets/img/zan__off.png" alt="">点赞
+                                            </div>
+                                            <div class="item-comNum">
+                                                <img src="../assets/img/ping.png" alt="">回复
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="subcomment-wrapper"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                      <!-- 全部评论 -->
-                      <div class="comment-list-wrapper">
-                          <div class="title">
-                              <span>全部评论</span>
-                              <span>&nbsp;&nbsp;11</span>
-                          </div>
-                          <div class="list">
-                              <div class="comment-item">
-                                  <div class="comment-userImg">
-                                      <a href="" class="userImg">
-                                          <img src="../assets/img/user.png" alt="">
-                                      </a>
-                                  </div>
-                                  <div class="comment-content">
-                                      <div class="comment-main">
-                                          <div class="user-box">
-                                              <span class="name">青山绿水长流</span>
-                                              <span class="level"><img src="../assets/img/lv-2.png" alt=""></span>
-                                              <span class="jueyou-level"><img src="../assets/img/jy.png" alt=""></span>
-                                              <span class="position">移动端开发</span>
-                                              <span class="time">1个月</span>
-                                          </div>
-                                          <div class="content-main">hi，想问你一个问题，flutter如何做长截屏？</div>
-                                          <div class="comment-action-box">
-                                              <div class="item-zan">
-                                                  <img src="../assets/img/zan__off.png" alt="">点赞
-                                              </div>
-                                              <div class="item-comNum">
-                                                  <img src="../assets/img/ping.png" alt="">回复
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="subcomment-wrapper"></div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+                    <!-- 全部评论 -->
+                    <div class="comment-list-wrapper">
+                        <div class="title">
+                            <span>全部评论</span>
+                            <span>&nbsp;&nbsp;11</span>
+                        </div>
+                        <div class="list">
+                            <div class="comment-item">
+                                <div class="comment-userImg">
+                                    <a href="" class="userImg">
+                                        <img src="../assets/img/user.png" alt="">
+                                    </a>
+                                </div>
+                                <div class="comment-content">
+                                    <div class="comment-main">
+                                        <div class="user-box">
+                                            <span class="name">青山绿水长流</span>
+                                            <span class="level"><img src="../assets/img/lv-2.png" alt=""></span>
+                                            <span class="jueyou-level"><img src="../assets/img/jy.png" alt=""></span>
+                                            <span class="position">移动端开发</span>
+                                            <span class="time">1个月</span>
+                                        </div>
+                                        <div class="content-main">hi，想问你一个问题，flutter如何做长截屏？</div>
+                                        <div class="comment-action-box">
+                                            <div class="item-zan">
+                                                <img src="../assets/img/zan__off.png" alt="">点赞
+                                            </div>
+                                            <div class="item-comNum">
+                                                <img src="../assets/img/ping.png" alt="">回复
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="subcomment-wrapper"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-              <!-- 侧边栏 -->
-              <div class="sidebar">
-                  <!-- 作者信息栏 -->
-                  <div class="author-block">
-                      <div class="user-item">
-                          <div class="userimg">
-                              <img src="../assets/img/user.png" alt="">
-                          </div>
-                      
-                          <div class="info-box">
-                              <div class="userName">
-                                  <span>想不到一个好的ID</span>
-                                  <img src="../assets/img/lv-2.png" alt="">
-                              </div>
-                              <div class="position">摸鱼摸鱼摸鱼摸鱼摸鱼摸鱼摸鱼</div>
-                          </div>
-                      </div>
-                      <div class="stat-item">
-                          <div><img src="../assets/img/userZan.png" alt=""></div>
-                          <span>获得点赞 22,111</span>
-                      </div>
-                      <div class="stat-item">
-                          <div><img src="../assets/img/userEye.png" alt=""></div>
-                          <span>文章被阅读 22,111</span>
-                      </div>
-                  </div>
+            <!-- 侧边栏 -->
+            <div class="sidebar">
+                <!-- 作者信息栏 -->
+                <div class="author-block">
+                    <div class="user-item">
+                        <div class="userimg">
+                            <img src="../assets/img/user.png" alt="">
+                        </div>
+                    
+                        <div class="info-box">
+                            <div class="userName">
+                                <span>想不到一个好的ID</span>
+                                <img src="../assets/img/lv-2.png" alt="">
+                            </div>
+                            <div class="position">摸鱼摸鱼摸鱼摸鱼摸鱼摸鱼摸鱼</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div><img src="../assets/img/userZan.png" alt=""></div>
+                        <span>获得点赞 22,111</span>
+                    </div>
+                    <div class="stat-item">
+                        <div><img src="../assets/img/userEye.png" alt=""></div>
+                        <span>文章被阅读 22,111</span>
+                    </div>
+                </div>
 
-                  <!-- 文章目录 -->
-                  <div class="sticky-block-box">
-                      <div class="sticky-title">目录</div>
+                <!-- 文章目录 -->
+                <div class="sticky-block-box">
+                    <div class="sticky-title">目录</div>
 
-                      <!-- 目录主体 -->
-                      <div class="sticky-content">
-                          <ul class="sticky-list first">
-                              <li class="item">
-                                  <a href="">
-                                      <div class="a-container">1</div>
-                                  </a>
-                                  <ul class="sticky-list">
-                                      <li class="item">
-                                          <a href="">
-                                              <div class="a-container">1.1</div>
-                                          </a>
+                    <!-- 目录主体 -->
+                    <div class="sticky-content">
+                        <ul class="sticky-list first">
+                            <li class="item">
+                                <a href="">
+                                    <div class="a-container">1</div>
+                                </a>
+                                <ul class="sticky-list">
+                                    <li class="item">
+                                        <a href="">
+                                            <div class="a-container">1.1</div>
+                                        </a>
 
-                                      </li>
-                                      <li class="item">
-                                          <a href="">
-                                              <div class="a-container">1.2</div>
-                                          </a>
-                                          <ul class="sticky-list">
-                                              <li class="item">
-                                                  <a href="">
-                                                      <div class="a-container">1.2.1</div>
-                                                  </a>
-                                              </li>
-                                              <li class="item">
-                                                  <a href="">
-                                                      <div class="a-container">1.2.2</div>
-                                                  </a>
-                                              </li>
-                                  
-                                          </ul>
-                                      </li>
-                                      <li class="item">
-                                          <a href="">
-                                              <div class="a-container">1.3</div>
-                                          </a>
-                                      </li>
-                                  </ul>
-                              </li>
-                              <li class="item">
-                                  <a href="">
-                                      <div class="a-container">2</div>
-                                  </a>
-                                  <ul class="sticky-list">
-                                      <li class="item">
-                                          <a href="">
-                                              <div class="a-container">2.1</div>
-                                          </a>
-                                      </li>
-                                      <li class="item">
-                                          <a href="">
-                                              <div class="a-container">2.2</div>
-                                          </a>
-                                      </li>
-                                      <li class="item">
-                                          <a href="">
-                                              <div class="a-container">2.3</div>
-                                          </a>
-                                      </li>
-                                  </ul>
-                              </li>
-                              <li class="item">
-                                  <a href="">
-                                      <div class="a-container">3</div>
-                                  </a>
-                              </li>
-                              <li class="item">
-                                  <a href="">
-                                      <div class="a-container">4</div>
-                                  </a>
-                              </li>
-                              <li class="item">
-                                  <a href="">
-                                      <div class="a-container">5</div>
-                                  </a>
-                              </li>
-                          </ul>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="article-suspended-panel"></div>
+                                    </li>
+                                    <li class="item">
+                                        <a href="">
+                                            <div class="a-container">1.2</div>
+                                        </a>
+                                        <ul class="sticky-list">
+                                            <li class="item">
+                                                <a href="">
+                                                    <div class="a-container">1.2.1</div>
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="">
+                                                    <div class="a-container">1.2.2</div>
+                                                </a>
+                                            </li>
+                                
+                                        </ul>
+                                    </li>
+                                    <li class="item">
+                                        <a href="">
+                                            <div class="a-container">1.3</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="item">
+                                <a href="">
+                                    <div class="a-container">2</div>
+                                </a>
+                                <ul class="sticky-list">
+                                    <li class="item">
+                                        <a href="">
+                                            <div class="a-container">2.1</div>
+                                        </a>
+                                    </li>
+                                    <li class="item">
+                                        <a href="">
+                                            <div class="a-container">2.2</div>
+                                        </a>
+                                    </li>
+                                    <li class="item">
+                                        <a href="">
+                                            <div class="a-container">2.3</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="item">
+                                <a href="">
+                                    <div class="a-container">3</div>
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a href="">
+                                    <div class="a-container">4</div>
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a href="">
+                                    <div class="a-container">5</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 左侧功能面板 -->
+        <div class="article-suspended-panel">
+            <div class="panel-btn">
+                <img src="../assets/img/panelZan.png" alt="">
+            </div>
+            <div class="panel-btn">
+                <img src="../assets/img/panelLiu.png" alt="">
+            </div>
+            <div class="panel-btn">
+                <img src="../assets/img/panelStar.png" alt="">
+            </div>
+            <div class="panel-btn">
+                <img src="../assets/img/panelFa.png" alt="">
+            </div>
+            <div class="panel-btn">
+                <img src="../assets/img/paneljing.png" alt="">
+            </div>
+            <div class="panel-btn">
+                <img src="../assets/img/panelQuan.png" alt="">
+            </div>
+        </div>
       </div>
   </div>
 </template>
@@ -339,10 +360,10 @@ body {
 .page__main{
     max-width: 1140px;
     width: 100%;
-    height: 800px;
+    /* height: 800px; */
     margin: 0 auto;
     position: relative;
-    margin-top: 21px;
+    margin-top: 81px;
 }
 .article-main{
     width: 100%;
@@ -859,7 +880,45 @@ a{
     background: #1e80ff;
     border-radius: 3px;
 }
-
-
 /* 侧边栏  结束 */
+
+/* 左侧功能栏 */
+.article-suspended-panel{
+    width: 48px;
+    height: 300px;
+    /* background: rgba(0, 0, 0, 0.157); */
+    position: fixed;
+    top: 140px;
+    left: 100px;
+}
+.panel-btn{
+    width: 100%;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    margin-bottom: 20px;
+    box-shadow: 1px 1px 20px #dadddd;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.panel-btn>img{
+    width: 17px;
+    height: 17px;
+}
+.panel-btn:nth-child(4){
+    margin-bottom: 40px;
+    position: relative;
+}
+.panel-btn:nth-child(4)::after{
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    width: 30px;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.157);
+    transform: scaleY(.5);
+}
 </style>

@@ -554,5 +554,45 @@ a{
     border-radius: 3px;
 }
 
-
 /* 侧边栏  结束 */
+
+
+/* 左侧功能栏 */
+.article-suspended-panel{
+    width: 48px;
+    height: 300px;
+    /* background: rgba(0, 0, 0, 0.157); */
+    position: fixed;
+    top: 140px;
+    left: 100px;
+}
+.panel-btn{
+    width: 100%;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    margin-bottom: 20px;
+    box-shadow: 1px 1px 20px #dadddd;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.panel-btn>img{
+    width: 17px;
+    height: 17px;
+}
+.panel-btn:nth-child(4){
+    margin-bottom: 40px;
+    position: relative;
+}
+.panel-btn:nth-child(4)::after{
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    width: 30px;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.157);
+    transform: scaleY(.5);
+}
