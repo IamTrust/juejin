@@ -8,29 +8,29 @@
                 <!-- 文章主体区域 -->
                 <div class="article">
                     <!-- 标题 -->
-                    <div class="article-title">分布式架构下的几个关键问题分布式架构下的几个关键问题分布式架构下的几个关键问题</div>
+                    <div class="article-title">{{articleDetail.title}}</div>
 
                     <!-- 作者信息区域 -->
                     <div class="article-info-box">
                         <a href="" class="user-photo">
-                            <img src="../assets/img/user.png" alt="">
+                            <img :src="articleDetail.avatarLarge" alt="用户头像">
                         </a>
                         <div class="author-info">
                             <div class="author-name">
-                                <span class="name">想不到一个好的ID</span>
+                                <span class="name">{{articleDetail.userName}}</span>
                                 <span><img src="../assets/img/lv-2.png" alt=""></span>
                             </div>
                             <div class="meta-box">
                                 <span class="time">2022年08月07日 22:23</span>
-                                <span>阅读 167</span>
+                                <span>阅读 {{articleDetail.viewCount}}</span>
                             </div>
                         </div>
                         <button class="follow-btn">+ 关注</button>
                     </div>
 
                     <!-- 文章图片展示（可能没有） -->
-                    <div class="article-img">
-                        <img src="../assets/img/article__01.png" alt="">
+                    <div v-if="articleDetail.coverImage" class="article-img">
+                        <img :src="articleDetail.coverImage" alt="">
                     </div>
 
                     <!-- 文章主体内容 -->
@@ -186,24 +186,24 @@
                 <div class="author-block">
                     <div class="user-item">
                         <div class="userimg">
-                            <img src="../assets/img/user.png" alt="">
+                            <img :src="articleDetail.avatarLarge" alt="用户头像">
                         </div>
                     
                         <div class="info-box">
                             <div class="userName">
-                                <span>想不到一个好的ID</span>
+                                <span>{{articleDetail.userName}}</span>
                                 <img src="../assets/img/lv-2.png" alt="">
                             </div>
-                            <div class="position">摸鱼摸鱼摸鱼摸鱼摸鱼摸鱼摸鱼</div>
+                            <div class="position">{{articleDetail.jobTitle}}</div>
                         </div>
                     </div>
                     <div class="stat-item">
                         <div><img src="../assets/img/userZan.png" alt=""></div>
-                        <span>获得点赞 22,111</span>
+                        <span>获得点赞 {{articleDetail.diggCount}}</span>
                     </div>
                     <div class="stat-item">
                         <div><img src="../assets/img/userEye.png" alt=""></div>
-                        <span>文章被阅读 22,111</span>
+                        <span>文章被阅读 {{articleDetail.viewCount}}</span>
                     </div>
                 </div>
 
@@ -319,8 +319,21 @@
 </template>
 
 <script>
+    import articleApi from '../api/article'
+
     export default {
-        
+        data() {
+            return {
+                articleDetail: {}
+            }
+        },
+
+        created() {
+            this.articleDetail.articleId = this.$route.params.articleId
+            articleApi.getArticleDetailById(this.articleDetail.articleId).then(resp => {
+                this.articleDetail = resp.data.data.articleDetail
+            })
+        }
     }
 </script>
 
