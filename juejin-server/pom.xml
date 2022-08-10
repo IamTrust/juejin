@@ -107,6 +107,15 @@
                     <include>**/*.properties</include>
                 </includes>
             </resource>
+            <resource>
+                <!-- 指定目录下的文件(包括子目录) -->
+                <directory>src/main/resources</directory>
+                <!-- 指定哪些类型的文件会拷贝 -->
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
         </resources>
     </build>
 
