@@ -238,7 +238,7 @@
                     let that = this
                     setTimeout(function(){
                         // 打印screenWidth变化的值
-                        console.log(that.screenWidth)
+                        // console.log(that.screenWidth)
                         if(that.screenWidth < 960){
                             that.$refs.tagContent.style.width = that.screenWidth + 'px';
                             that.$refs.tagManage.style.display = 'none';
