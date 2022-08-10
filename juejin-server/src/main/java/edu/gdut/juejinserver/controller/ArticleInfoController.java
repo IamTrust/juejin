@@ -1,8 +1,5 @@
 package edu.gdut.juejinserver.controller;
 
-
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import edu.gdut.juejinserver.pojo.ArticleInfo;
 import edu.gdut.juejinserver.service.ArticleInfoService;
 import edu.gdut.juejinserver.utils.Result;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +45,11 @@ public class ArticleInfoController {
     @GetMapping("/find_article_info_items/{current}/{limit}")
     public Result findIndexArticleInfoItems(@PathVariable Integer current, @PathVariable Integer limit) {
         return Result.success().data("article_info", articleInfoService.queryArticleInfoList(current, limit));
+    }
+
+    @GetMapping("/findArticleDetail/{articleId}")
+    public Result findArticleDetailById(@PathVariable String articleId) {
+        return Result.success().data("articleDetail", articleInfoService.getArticleDetailById(articleId));
     }
 
 }

@@ -10,6 +10,7 @@ import edu.gdut.juejinserver.pojo.AuthorUser;
 import edu.gdut.juejinserver.pojo.Tags;
 import edu.gdut.juejinserver.service.ArticleInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import edu.gdut.juejinserver.vo.ArticleDetailVo;
 import edu.gdut.juejinserver.vo.ArticleInfoVo;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -108,6 +109,11 @@ public class ArticleInfoServiceImpl extends ServiceImpl<ArticleInfoMapper, Artic
             list.add(vo);
         }
         return list;
+    }
+
+    @Override
+    public ArticleDetailVo getArticleDetailById(String articleId) {
+        return articleInfoMapper.queryArticleInfoById(articleId);
     }
 
 }
