@@ -1,14 +1,4 @@
-:root {
-    --juejin-brand-1-normal: #1e80ff;
-    --juejin-brand-2-hover: #1171ee;
-    --juejin-brand-3-click: #0060dd;
-    --juejin-brand-4-disable: #abcdff;
-    --juejin-brand-5-light: #eaf2ff;
-    --juejin-font-1: #252933;
-    --juejin-font-2: #515767;
-    --juejin-font-3: #8a919f;
-    --juejin-font-4: #c2c8d1;
-}
+
 .page__main{
     width: 98.93vw;
 }
@@ -18,6 +8,7 @@
     margin: 0 auto;
     /* background: rgba(50, 241, 16, 0.215); */
     margin-top: 130px;
+    position: relative;
 }
 .contents__list{
     width: 700px;
@@ -145,14 +136,19 @@
 
 .content-main .title{
     font-size: .98rem;
-    color: #000;
+    /* color: #000; */
     font-weight: bold;
     margin: 8px 0 12px 0;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 }
-
+.content-main .title a{
+    color: #000;
+}
+.content-main .title a:visited{
+    color: #86909c;
+}
 .content-main .abstract{
     /* width: 100px; */
     font-size: .82rem;
@@ -219,54 +215,109 @@
     transform: scale(1.2);
 }
 
-
-/* 标签页面 */
-.page__header__tag{
-    width: 100%;
-    height: 46px;
-    margin-top: 60px;
-    background: #fff;
-    position: fixed;
-    top: 0;
-    z-index: 3;
-}
-.page__header__tag::after {
-    content: '';
+.sidebar{
+    width: 240px;
     position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-    background-color: var(--juejin-font-4);
-    transform: scaleY(0.5);
+    top: 0;
+    right: 0;
 }
-.tag__contents{
-    height: 100%;
-    /* background: rgba(239, 24, 24, 0.199); */
-    width: 960px;
-    margin: 0 auto;
+.sidebar>div{
+    margin-bottom: 16px;
+    border-radius: 3px;
+}
+.signin__top{
+    width: 100%;
+    height: 96px;
+    padding: 16px;
+    box-sizing: border-box;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.first__line{
     display: flex;
     justify-content: space-between;
-    /* overflow-x: scroll; */
+    
 }
-.tag__list{
-    display: flex;
-    height: 100%;
-}
-.tag__manage{
+.icon__text{
     display: flex;
     align-items: center;
+    font-size: 18px;
+    font-weight: 500;
 }
-.tag__manage > span{
-    font-size: .9rem;
-    color: var(--juejin-font-2);
+.icon__text>img{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
 }
-.page__header__tag a:hover{
-    color: var(--juejin-brand-1-normal);
+.signedin__btn{
+    width: 72px;
+    height: 32px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #1e80ff;
+    background: #e8f3ff;
+
 }
-.tag__list .list__contents{
-    margin-left: 0;
+.second__line{
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    color: #86909c;
 }
-.tag__list li:nth-child(1){
-    margin-left: 0;
+
+
+
+.sidebar__block{
+    width: 100%;
+    /* height: 200px; */
+    overflow: hidden;
+    position: relative;
+}
+.sidebar__block>img{
+    width: 100%;
+}
+.sidebar__block:not(:last-child)::after{
+    content: '广告';
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 36px;
+    height: 19px;
+    background: rgba(0, 0, 0, 0.151);
+    border: 1px solid rgb(199, 199, 199);
+    border-radius: 3px;
+
+    font-size: 8px;
+    color: #fff;
+    text-align: center;
+    line-height: 19px;
+}
+.block-body{
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    background: #fff;
+    display: flex;
+}
+.block-body>img{
+    width: 50px;
+    height: 50px;
+    margin-right: 12px;
+}
+.block-body-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.block-body-text>:first-child{
+    font-size: 14px;
+}
+.block-body-text>:last-child{
+    font-size: 12px;
+    line-height: 20px;
+    color: #86909c;
 }
 

@@ -1,30 +1,9 @@
 <template>
     <div class="page__main" ref="listWrap" >
-        <!-- 导航标签 -->
-        <div class="page__header__tag" ref="pageHeaderTag">
-            <div class="tag__contents" ref="tagContent">
-                <div class="tag__list">
-                    <ul class="list__contents">
-                        <li><a href="#" style="color: #1e80ff;">综合</a></li>
-                        <li><a href="#">关注</a></li>
-                        <li><a href="#">后端</a></li>
-                        <li><a href="#">前端</a></li>
-                        <li><a href="#">Android</a></li>
-                        <li><a href="#">iOS</a></li>
-                        <li><a href="#">人工智能</a></li>
-                        <li><a href="#">开发工具</a></li>
-                        <li><a href="#">代码人生</a></li>
-                        <li><a href="#">阅读</a></li>
-                    </ul>
-                </div>
-                <div class="tag__manage" ref="tagManage">
-                    <span><a href="#">标签管理</a></span>
-                </div>
-            </div> 
-        </div>
-
+        <Header :msg="true"/>
         <!-- 文章列表 -->
         <div class="page__main__contents">
+            <!-- 文章列表主体 -->
             <div class="contents__list" ref="scrollBar">
                 <div class="list__header" >
                     <div class="nav__list">
@@ -36,6 +15,9 @@
                     </div>
                 </div>
 
+                <!-- 数据加载时呈现的骨架 -->
+                <el-skeleton :rows="4" animated style="width:700px" class="listSkeleton" v-if="loading" />
+                
                 <div class="list__content">
                     <ul class="article__list" ref="list">
                         <li v-for="article in showList" :key="article.articleId" class="list__item">
@@ -56,7 +38,7 @@
                                 <div class="article__content">
                                     <div class="content-main">
                                         <div class="title">
-                                            <router-link :to="`/detail/${article.articleId}`" class="title">{{article.title}}</router-link>
+                                            <router-link target="_blank" :to="`/detail/${article.articleId}`"  class="title">{{article.title}}</router-link>
                                         </div>
                                         <div class="abstract">
                                             <a href="#">
@@ -87,6 +69,37 @@
                     </ul>
                 </div>
             </div>
+
+            <!-- 右侧信息栏 -->
+            <div class="sidebar">
+                <div class="signin__top">
+                    <div class="first__line">
+                        <div class="icon__text">
+                            <img src="../assets/img/day.png" alt="">
+                            下午好!
+                        </div>
+                        <button class="signedin__btn">
+                            已签到
+                        </button>
+                    </div>
+                    <div class="second__line">           
+                        你已经连续签到<span style="color:#1e80ff; font-size: 16px;">100</span>天
+                    </div>
+                </div>
+                <div class="sidebar__block">
+                    <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0b6a58397c77485495a051142f1d863d~tplv-k3u1fbpfcp-no-mark:480:400:0:0.awebp?" alt="">
+                </div>
+                <div class="sidebar__block">
+                    <img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a88a1ea956734105a5b002dfb48840cb~tplv-k3u1fbpfcp-no-mark:480:400:0:0.awebp?" alt="">
+                </div>
+                <div class="block-body">
+                    <img src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/img/home.59780ae.png" alt="">
+                    <div class="block-body-text">
+                        <div>下载稀土掘金APP</div>
+                        <div>一个帮助开发者成长的社区</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -94,12 +107,14 @@
 <script>
     import "../assets/css/page__header.css"
     import "../assets/css/page__main.css"
+    import Header from '../components/Header'
     import article from "../api/article"
     import eventBus from "../assets/js/EventBus"
 
     export default {
         data() {
             return {
+                loading: true,
                 articleInfoList: [],
                 current: 1, // 当前页
                 limit: 20,   // 每页记录数
@@ -109,10 +124,11 @@
                 start: 0,//滚动过程显示的开始索引
                 end: 10,//滚动过程显示的结束索引
 
-                headerNavSign: true,
-
-                screenWidth: document.body.clientWidth
+                screenWidth: document.body.clientWidth,//获取屏幕宽度
             }
+        },
+        components: {
+            Header
         },
         updated(){
             //计算全部数据需要的高度，撑开滚动条高度
@@ -123,12 +139,6 @@
             showList(){  return this.articleInfoList.slice(this.start, this.end);  }
         },
         methods: {
-            getHeaderData(){
-                // 通过事件总线监听消息
-                eventBus.$on('pushMsg', (children1Msg) => {
-                    this.headerNavSign = children1Msg
-                })
-            },
             // 计算呈现在页面上列表开头和结尾的位置
             scrollListener(scrollTop){
                 // //计算总的数据需要的高度，构造滚动条高度
@@ -157,8 +167,17 @@
                         arr[i].diggCount = this.setAction(e.diggCount,2);
                         arr[i].commentCount = this.setAction(e.commentCount,3);
                     })
-                   
-                    this.articleInfoList.push(...arr);
+                    // 防抖处理，防止数据加载过快，骨架一闪而过影响效果
+                    const promise = new Promise((resolve, reject)=>{
+                        let self = this;
+                        setTimeout(() => {
+                            self.loading = false;
+                            resolve();
+                        }, 500);
+                    })
+                    promise.then(resp=>{
+                        this.articleInfoList.push(...arr)
+                    })
                 })
             },
             // 滚动到底部后加载数据
@@ -169,11 +188,6 @@
                 if (scrollTop + clientHeight >= scrollHeight) {
                     this.current++;
                     this.getArticleInfoList()
-                }
-                if(this.headerNavSign){
-                    this.$refs.pageHeaderTag.style.marginTop = '60px';
-                }else{
-                    this.$refs.pageHeaderTag.style.marginTop = '0px'
                 }
                 this.scrollListener(scrollTop);
             },
@@ -268,7 +282,6 @@
         created() {
             window.addEventListener("scroll", this.lasyLoading);
             this.getArticleInfoList();
-            this.getHeaderData();
         },
         // 销毁监听事件
         destroyed() {
@@ -277,6 +290,13 @@
     }
 </script>
 
-<style>
-
+<style scoped>
+    .listSkeleton{
+        padding: 30px 20px;
+        box-sizing: border-box;
+        background: #fff;
+    }
+    .router-link-exact-active{
+        color: #86909c;
+    }
 </style>

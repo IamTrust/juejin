@@ -1,20 +1,3 @@
-:root {
-    --juejin-brand-1-normal: #1e80ff;
-    --juejin-brand-2-hover: #1171ee;
-    --juejin-brand-3-click: #0060dd;
-    --juejin-brand-4-disable: #abcdff;
-    --juejin-brand-5-light: #eaf2ff;
-    --juejin-font-1: #252933;
-    --juejin-font-2: #515767;
-    --juejin-font-3: #8a919f;
-    --juejin-font-4: #c2c8d1;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-}
-
 html,
 body {
     background-color: #f4f5f5;
@@ -23,6 +6,9 @@ body {
 a {
     text-decoration: none;
     color: var(--juejin-font-3);
+}
+a:visited {
+    color: #86909c;
 }
 
 ul {
@@ -40,11 +26,20 @@ ul {
 /* 导航栏部分 */
 .page__header {
     width: 100%;
-    /* height: 106px; */
+    height: 106px;
     position: fixed;
     top: 0;
-    background: rgb(255, 255, 255);
+    
     z-index: 5;
+}
+.page__header__box{
+    width: 100%;
+    height: 106px;
+    position: relative;
+    top: 0px;
+}
+.activeBox{
+    transition: all .3s linear;
 }
 
 .page__header__nav {
@@ -53,6 +48,8 @@ ul {
     display: flex;
     justify-content: center;
     position: relative;
+    top: 0px;
+    background: rgb(255, 255, 255);
 }
 
 .page__header__nav::after {
@@ -64,6 +61,57 @@ ul {
     background-color: var(--juejin-font-4);
     transform: scaleY(0.5);
 }
+
+/* 标签页面 */
+.page__header__tag{
+    width: 100%;
+    height: 46px;
+    background: #fff;
+    position: relative;
+    top: 0;
+    z-index: 3;
+}
+.page__header__tag::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--juejin-font-4);
+    transform: scaleY(0.5);
+}
+.tag__contents{
+    height: 100%;
+    /* background: rgba(239, 24, 24, 0.199); */
+    width: 960px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    /* overflow-x: scroll; */
+}
+.tag__list{
+    display: flex;
+    height: 100%;
+}
+.tag__manage{
+    display: flex;
+    align-items: center;
+}
+.tag__manage > span{
+    font-size: .9rem;
+    color: var(--juejin-font-2);
+}
+.page__header__tag a:hover{
+    color: var(--juejin-brand-1-normal);
+}
+.tag__list .list__contents{
+    margin-left: 0;
+}
+.tag__list li:nth-child(1){
+    margin-left: 0;
+}
+
+
 
 /* 掘金图标 */
 .nav__sign {
@@ -210,6 +258,7 @@ li>.community::after {
 
 .input__frame .input {
     flex: 1;
+    width: 316px;
     height: 12px;
     border: none;
     padding: 12px 7px;
@@ -222,7 +271,7 @@ li>.community::after {
     background: #86909c23;
     border-radius: 3px;
     margin-right: 3px;
-    margin-left: 140px;
+    /* margin-left: 140px; */
 }
 
 .input__sign .input__img{

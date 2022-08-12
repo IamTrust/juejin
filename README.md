@@ -46,6 +46,8 @@ cd juejin-app
 
 ```
 npm install
+
+npm i element-ui -S  : Element组件库
 ```
 
 #### 启动服务器
