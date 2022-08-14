@@ -489,7 +489,6 @@ a{
     background: rgba(0, 0, 0, 0.178);
     transform: scaleY(.5);
 }
-
 .sticky-content{
     width: 100%;
     max-height: 460px;
@@ -513,13 +512,14 @@ a{
     padding-left: 20px;
     box-sizing: border-box;
     position: relative;
+    color: #515767;
 
 }
 .a-container{
     height: 44px;
     border-radius: 4px;
     font-size: 14px;
-    color: #515767;
+    /* color: #515767; */
     line-height: 44px;
     padding-left: 5px;
     box-sizing: border-box;
@@ -529,16 +529,21 @@ a{
     background: #f7f8fa;
 }
 
+.first{
+    color: #1e80ff;
+}
 .first::after{
     content: '';
+    /* border-left:  2 #1e80ff; */
     position: absolute;
-    top: 13px;
-    /* 距离下一个标签 top增加53px */
+    margin-top: -32px;
+    /* top: 13px; */
     left: 0;
     width: 5px;
     height: 18px;
     background: #1e80ff;
     border-radius: 3px;
+    margin-left: 5px;
 }
 /* 侧边栏  结束 */
 
@@ -562,6 +567,7 @@ a{
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 
 }
 .panel-btn>img{
@@ -580,4 +586,19 @@ a{
     height: 1px;
     background: rgba(0, 0, 0, 0.157);
     transform: scaleY(.5);
+}
+
+.btn-num{
+    position: absolute;
+    top: 0;
+    left: 75%;
+    height: 17px;
+    line-height: 17px;
+    padding: 0 5px;
+    border-radius: 9px;
+    font-size: 11px;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #c2c8d1;
+    color: #fff;
 }

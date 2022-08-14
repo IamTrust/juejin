@@ -21,50 +21,51 @@
                 <div class="list__content">
                     <ul class="article__list" ref="list">
                         <li v-for="article in showList" :key="article.articleId" class="list__item">
-                            <div class="entry">
-                                <div class="article__inform">
-                                    <div class="nav__list">
-                                        <ul>
-                                            <li><a href="">{{article.userName}}</a></li>
-                                            <li><a href="" >{{article.mtime}}</a></li>
-                                            <li class="tag__a">
-                                                <div class="tag__name" v-for="(tag, index) in article.tagNames" :key="index">
-                                                    <a href="">{{tag}}</a>
-                                                </div>
-                                            </li>
-                                        </ul>
+                            <router-link target="_blank" :to="`/detail/${article.articleId}`"  class="title">
+                                <div class="entry" @click="article.color = !article.color">
+                                    <div class="article__inform">
+                                        <div class="nav__list">
+                                            <ul>
+                                                <li><a href="">{{article.userName}}</a></li>
+                                                <li><a href="" >{{article.mtime}}</a></li>
+                                                <li class="tag__a">
+                                                    <div class="tag__name" v-for="(tag, index) in article.tagNames" :key="index">
+                                                        <a href="">{{tag}}</a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="article__content">
+                                        <div class="content-main">
+                                            <div class="title" :class="{titleColor: article.color}">                                                {{article.title}}
+                                            </div>
+                                            <div class="abstract">
+                                                <a href="#">
+                                                    <div>{{article.briefContent}}</div>
+                                                </a>
+                                            </div>
+                                            <ul class="action-list">
+                                                <li class="item">
+                                                    <i class="eye"></i>
+                                                    <span>{{article.viewCount}}</span>
+                                                </li>
+                                                <li class="item">
+                                                    <i class="zan"></i>
+                                                    <span>{{article.diggCount}}</span>
+                                                </li>
+                                                <li class="item">
+                                                    <i class="cloud"></i>
+                                                    <span>{{article.commentCount}}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="content-img" v-if="article.coverImage">
+                                            <img :src="article.coverImage" alt="" class="lazy">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="article__content">
-                                    <div class="content-main">
-                                        <div class="title">
-                                            <router-link target="_blank" :to="`/detail/${article.articleId}`"  class="title">{{article.title}}</router-link>
-                                        </div>
-                                        <div class="abstract">
-                                            <a href="#">
-                                                <div>{{article.briefContent}}</div>
-                                            </a>
-                                        </div>
-                                        <ul class="action-list">
-                                            <li class="item">
-                                                <i class="eye"></i>
-                                                <span>{{article.viewCount}}</span>
-                                            </li>
-                                            <li class="item">
-                                                <i class="zan"></i>
-                                                <span>{{article.diggCount}}</span>
-                                            </li>
-                                            <li class="item">
-                                                <i class="cloud"></i>
-                                                <span>{{article.commentCount}}</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="content-img" v-if="article.coverImage">
-                                        <img :src="article.coverImage" alt="" class="lazy">
-                                    </div>
-                                </div>
-                            </div>
+                            </router-link>
                         </li>
                     </ul>
                 </div>
@@ -99,6 +100,42 @@
                         <div>一个帮助开发者成长的社区</div>
                     </div>
                 </div>
+                <div class="sidebar__block user-top">
+                    <div class="header-block">🎖️作者榜</div>
+                    <div class="user-list">
+                        <div class="item">
+                            <div class="item__img-box">
+                                <img src="https://p3-passport.byteacctimg.com/img/mosaic-legacy/3792/5112637127~300x300.image" alt="">
+                            </div>
+                            <div class="item__user-info">
+                                小明同学
+                                <img src="../assets/img/lv-2.png" alt="">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item__img-box">
+                                <img src="https://p9-passport.byteacctimg.com/img/mosaic-legacy/3793/3131589739~300x300.image" alt="">
+                            </div>
+                            <div class="item__user-info">
+                                工匠若水
+                                <img src="../assets/img/lv-2.png" alt="">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item__img-box">
+                                <img src="https://p9-passport.byteacctimg.com/img/mosaic-legacy/3796/2975850990~300x300.image" alt="">
+                            </div>
+                            <div class="item__user-info">
+                                固体物质搬运工
+                                <img src="../assets/img/lv-2.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="author-list">
+                        完整榜单&nbsp;&nbsp;>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -125,6 +162,7 @@
                 end: 10,//滚动过程显示的结束索引
 
                 screenWidth: document.body.clientWidth,//获取屏幕宽度
+                color: true
             }
         },
         components: {
@@ -166,6 +204,7 @@
                         arr[i].viewCount = this.setAction(e.viewCount,1);
                         arr[i].diggCount = this.setAction(e.diggCount,2);
                         arr[i].commentCount = this.setAction(e.commentCount,3);
+                        arr[i].color = true;
                     })
                     // 防抖处理，防止数据加载过快，骨架一闪而过影响效果
                     const promise = new Promise((resolve, reject)=>{
