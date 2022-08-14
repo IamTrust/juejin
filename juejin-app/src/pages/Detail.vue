@@ -444,9 +444,19 @@
             window.addEventListener("scroll", this.setStickyBoxTop)
             window.addEventListener("scroll", this.setStickyBox)
 
+            // 发请求拿数据
             this.articleDetail.articleId = this.$route.params.articleId
+            // 文章信息
             articleApi.getArticleDetailById(this.articleDetail.articleId).then(resp => {
                 this.articleDetail = resp.data.data.articleDetail
+            })
+            // 文章标签信息
+            articleApi.getArticleTagsById(this.articleDetail.articleId).then(resp => {
+                this.articleDetail.tags = resp.data.data.tags
+            })
+            // 文章内容
+            articleApi.getArticleContentById(this.articleDetail.articleId).then(resp => {
+                this.articleDetail.markContent = resp.data.data.articleContent
             })
         },
     }

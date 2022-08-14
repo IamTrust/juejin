@@ -13,5 +13,19 @@ export default {
             url: `/juejinserver/index_data/findArticleDetail/${articleId}`,
             method: "get"
         })
+    },
+
+    getArticleTagsById(articleId) {
+        return request({
+            url: `/juejinserver/index_data/findArticleTags/${articleId}`,
+            method: "get"
+        })
+    },
+
+    getArticleContentById(articleId) {
+        return request({
+            url: `/juejinserver/article_content/getArticleContent/${articleId}`,
+            method: "get"
+        })
     }
 }
