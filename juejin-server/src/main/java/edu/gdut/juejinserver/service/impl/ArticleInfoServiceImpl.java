@@ -10,6 +10,7 @@ import edu.gdut.juejinserver.pojo.AuthorUser;
 import edu.gdut.juejinserver.pojo.Tags;
 import edu.gdut.juejinserver.service.ArticleInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import edu.gdut.juejinserver.utils.JuejinStringUtils;
 import edu.gdut.juejinserver.vo.ArticleDetailVo;
 import edu.gdut.juejinserver.vo.ArticleInfoVo;
 import org.springframework.cache.annotation.Cacheable;
@@ -82,19 +83,8 @@ public class ArticleInfoServiceImpl extends ServiceImpl<ArticleInfoMapper, Artic
             vo.setUserName(user.getUserName());
 
             // tagIds和tagNames
-            // tagIds: [123, 456, 789, 2142]
-            // 特殊情况：只有一个tag的：[123]
             String tagIds = article.getTagIds();
-            tagIds = tagIds.substring(1, tagIds.length() - 1);  // 去掉中括号
-            // tagIds = tagIds.trim(); // 这个方法只能去除首尾空格
-            tagIds = tagIds.replace(" ", "");
-            // 处理特殊情况：[123], 根据有没有逗号来判断
-            String[] tagIdsArr = null;
-            if (tagIds.contains(",")) {
-                tagIdsArr = tagIds.split(",");
-            } else {
-                tagIdsArr = new String[]{tagIds};
-            }
+            String[] tagIdsArr = JuejinStringUtils.getTagIdsArray(tagIds);
             vo.setTagsIds(tagIdsArr);
             // 根据tagId查tagName
             List<String> tagNames = new ArrayList<>();
@@ -114,6 +104,22 @@ public class ArticleInfoServiceImpl extends ServiceImpl<ArticleInfoMapper, Artic
     @Override
     public ArticleDetailVo getArticleDetailById(String articleId) {
         return articleInfoMapper.queryArticleInfoById(articleId);
+    }
+
+    @Override
+    public List<String> getArticleTagsById(String articleId) {
+        ArticleInfo articleInfo = articleInfoMapper.selectById(articleId);
+        String tagIds = articleInfo.getTagIds();
+        String[] tagIdsArray = JuejinStringUtils.getTagIdsArray(tagIds);
+        List<String> tags = new ArrayList<>();
+        // 根据tagId查tagName
+        for (String s : tagIdsArray) {
+            QueryWrapper<Tags> wrapper = new QueryWrapper<>();
+            wrapper.eq("tag_id", s);
+            Tags tag = tagsMapper.selectOne(wrapper);
+            if (tag != null) tags.add(tag.getTagName());
+        }
+        return tags;
     }
 
 }

@@ -32,4 +32,5 @@ public interface ArticleInfoService extends IService<ArticleInfo> {
      */
     ArticleDetailVo getArticleDetailById(String articleId);
 
+    List<String> getArticleTagsById(String articleId);
 }

@@ -52,5 +52,10 @@ public class ArticleInfoController {
         return Result.success().data("articleDetail", articleInfoService.getArticleDetailById(articleId));
     }
 
+    @GetMapping("/findArticleTags/{articleId}")
+    public Result findArticleTagsById(@PathVariable String articleId) {
+        return Result.success().data("tags", articleInfoService.getArticleTagsById(articleId));
+    }
+
 }
 
