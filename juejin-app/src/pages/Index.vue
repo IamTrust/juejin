@@ -41,9 +41,7 @@
                                             <div class="title" :class="{titleColor: article.color}">                                                {{article.title}}
                                             </div>
                                             <div class="abstract">
-                                                <a href="#">
-                                                    <div>{{article.briefContent}}</div>
-                                                </a>
+                                                <div>{{article.briefContent}}</div>
                                             </div>
                                             <ul class="action-list">
                                                 <li class="item">

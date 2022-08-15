@@ -11,6 +11,7 @@
             <div class="article-area">
                 <!-- 文章主体区域 -->
                 <div class="article">
+                    
                     <!-- 标题 -->
                     <div class="article-title">{{articleDetail.title}}</div>
 
@@ -25,7 +26,7 @@
                                 <span><img src="../assets/img/lv-2.png" alt=""></span>
                             </div>
                             <div class="meta-box">
-                                <span class="time">2022年08月07日 22:23</span>
+                                <span class="time">{{articleTime}}</span>
                                 <span>阅读 {{articleDetail.viewCount}}</span>
                             </div>
                         </div>
@@ -37,20 +38,21 @@
                         <img :src="articleDetail.coverImage" alt="">
                     </div>
 
+                    <!-- 数据加载时呈现的骨架 -->
+                    <el-skeleton :rows="4" animated style="width:700px" class="listSkeleton" v-if="loading" />
+
                     <!-- 文章主体内容 -->
                     <div class="article-content" ref="articleBox">
-                        
+                        <Viewer class="viewer" :tabindex="2" :value="value" :plugins="plugins"></Viewer>
                     </div>
                     
                     <!-- 文章标签区域 -->
                     <div class="tag-list-box">
-                        <div class="list">分类：
-                            <span>后端</span>
+                        <div class="list" v-if="firstTag">分类：
+                            <span>{{firstTag}}</span>
                         </div>
-                        <div class="list">标签：
-                            <span>后端</span>
-                            <span>后端</span>
-                            <span>后端</span>
+                        <div class="list" v-if="articleDetail.tags">标签：
+                            <span v-for="(item,index) of articleDetail.tags" :key="index">{{item}}</span>
                         </div>
                     </div>
                 </div>
@@ -187,7 +189,7 @@
             </div>
 
             <!-- 侧边栏 -->
-            <div class="sidebar">
+            <div class="sidebar">   
                 <!-- 作者信息栏 -->
                 <div class="author-block" ref="authorBox">
                     <div class="user-item">
@@ -205,7 +207,7 @@
                     </div>
                     <div class="stat-item">
                         <div><img src="../assets/img/userZan.png" alt=""></div>
-                        <span>获得点赞 {{articleDetail.diggCount}}</span>
+                        <span>获得点赞 {{zanObj.number}}</span>
                     </div>
                     <div class="stat-item">
                         <div><img src="../assets/img/userEye.png" alt=""></div>
@@ -217,12 +219,15 @@
                 <div class="sticky-block-box activeBox" :class="stickyStatus" ref="stickyBox" style="margin-top: 60px;">
                     <div class="sticky-title">目录</div>
 
+                    
+
                     <!-- 目录主体 -->
                     <div class="sticky-content" ref="stickyContentBox">
+                        <el-skeleton :rows="3" animated class="listSkeleton" v-if="loading" />
                         <!-- <div class="first" ref="listFirstBox"></div> -->
                         <ul class="sticky-list">
                             <li class="item" :class="[currentTitle == title.currentTitleId ? 'first' : '']" v-for="title in titles" :key="title.id">
-                                <div class="a-container" :style="{ marginLeft: title.level * 20 + 'px' }" :title="title.rawName" @click="scrollToView(title.scrollTop - 40)">{{ title.name }}</div>
+                                <div class="a-container" :style="{ marginLeft: title.level * 20 + 'px' }" :title="title.rawName" @click="scrollToView(title.scrollTop - 40)">{{ title.rawName }}</div>
                             </li>
                         </ul>
                     </div>
@@ -239,7 +244,7 @@
             </div>
             <div class="panel-btn">
                 <img src="../assets/img/panelLiu.png" alt="">
-                <div class="btn-num">50</div>
+                <div class="btn-num">{{articleDetail.commentCount}}</div>
             </div>
             <div class="panel-btn">
                 <img src="../assets/img/panelStar.png" alt="">
@@ -263,12 +268,20 @@
     import Header from '../components/Header'
     import articleApi from '../api/article'
     import eventBus from "../assets/js/EventBus"
-    // import { reactive, ref } from "../assets/js/vue";
-    
+    import { Editor, Viewer } from '@bytemd/vue'
+    import zhHans from 'bytemd/lib/locales/zh_Hans.json'
+    import frontmatter from '@bytemd/plugin-frontmatter'
+
+    const plugins = [
+        // 将所有的扩展功能放入插件数组中，然后就可以生效了
+        frontmatter()
+    ]
 
     export default {
         data() {
             return {
+                loading: true,//文章加载的骨架
+
                 articleDetail: {},
                 stickyStatus: {
                     stickyBoxStatus: false
@@ -276,26 +289,47 @@
                 headerNavSign: true,
 
                 zanObj: {    //点赞的状态
-                    number: 100,
+                    number: null,
                     status: false
                 },
+                articleTime: null,
 
                 titles: [],  //目录列表
                 titlesLen: null,
                 currentTitle: 0,
+
+                imgStatus: true,
+                articleContent: {},
+                firstTag: '',
+
+                value: '', // 获取的markdow文档内容
+                zhHans,//中文配置
+                plugins//插件
             }
         },
         components: {
-            Header
+            Header,
+            Editor, 
+            Viewer
         },
         methods: {
+            // 格式化文章时间
+            setArticleTiem(time){
+                let date = new Date(time);
+                let Y = date.getFullYear();
+                let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1);
+                let D = date.getDate();
+                let h = date.getHours() + ':';
+                let m = date.getMinutes();
+                return `${Y}年${M}月${D}日 ${h}${m}`;
+            },
             // 获取文章标题结构
             getTitles() {
                 let titles = [];
                 let levels = ["h1", "h2", "h3"];
 
-                // let articleElement = document.querySelector(props.container);
-                let articleElement = this.$refs.articleBox;
+                let articleElement = this.$refs.articleBox.children[0];
+
                 if (!articleElement) {
                     return titles;
                 }
@@ -326,7 +360,7 @@
                         parent: null,
                         children: [],
                         rawName: element.innerText,
-                        scrollTop: element.offsetTop + 500
+                        scrollTop: element.offsetTop
                     };
 
                     if (titles.length > 0) {
@@ -367,7 +401,7 @@
                 for(let i=0; i<titles.length; i++){
                     titles[i].currentTitleId = i;
                 }
-                console.log(titles);
+                // console.log(titles);
                 this.titlesLen = titles.length;
                 return titles;
             },
@@ -410,7 +444,6 @@
             // 设置目录的滚动事件
             setStickyBox(){
                 if(!this.timer){
-                    // this.screenWidth = val
                     this.timer = true
                     let that = this
                     let num = 0;
@@ -430,17 +463,31 @@
             // 滚动到指定的位置
             scrollToView(scrollTop) {
                 window.scrollTo({ top: scrollTop, behavior: "smooth" });
+            },
+
+            // 设置文章的风格
+            articleStyle(arr){
+                // console.log(arr);
+                for(let i=0; i<arr.length; i++){
+                    console.log(i);
+                    if(/theme/g.test(arr[i])){
+                        let fg = arr[i].split(':')[1].trim();
+                        import(`juejin-markdown-themes/dist/${fg}.min.css`)
+                        break;
+                    }
+                    if(i>10){
+                        import(`juejin-markdown-themes/dist/juejin.min.css`)
+                        break;
+                    }
+                }
             }
+
         },
         mounted(){
             // 将页面置顶
             window.scrollTo(0, 0);
-            
-            // 得到文章目录列表
-            this.titles = this.getTitles();
         },
         created() {
-            // this.currentTitle = reactive({});
             window.addEventListener("scroll", this.setStickyBoxTop)
             window.addEventListener("scroll", this.setStickyBox)
 
@@ -448,15 +495,47 @@
             this.articleDetail.articleId = this.$route.params.articleId
             // 文章信息
             articleApi.getArticleDetailById(this.articleDetail.articleId).then(resp => {
-                this.articleDetail = resp.data.data.articleDetail
+                this.articleDetail = resp.data.data.articleDetail;
+                this.zanObj.number = this.articleDetail.diggCount;
+                this.articleTime = this.setArticleTiem(this.articleDetail.ctime* 1000);
             })
             // 文章标签信息
             articleApi.getArticleTagsById(this.articleDetail.articleId).then(resp => {
                 this.articleDetail.tags = resp.data.data.tags
+                let arr = this.articleDetail.tags;
+                this.firstTag = arr[0];
+                this.articleDetail.tags.shift();
             })
             // 文章内容
             articleApi.getArticleContentById(this.articleDetail.articleId).then(resp => {
-                this.articleDetail.markContent = resp.data.data.articleContent
+                
+                let result = resp.data.data.articleContent;
+                console.log(result);
+
+                let styleArr = result.split('\\n');
+                this.articleStyle(styleArr);//设置文章的风格
+                
+                result = result.replace(/\\n/g, '\n').replace(/\\u002F/g,'/').replace(/\\u003E/g,'>');
+
+                // 防抖处理，防止数据加载过快，骨架一闪而过影响效果
+                const promise = new Promise((resolve, reject)=>{
+                    let self = this;
+                    setTimeout(() => {
+                        self.loading = false;
+                        resolve();
+                    }, 300);
+                })
+
+                promise.then(resp=>{
+                    this.value = result;
+                }).then(resp=>{
+                    // 得到文章目录列表
+                    let self = this;
+                    setTimeout(() => {
+                        //等待文章中的图片加载完毕，再获取DOM节点生成文章目录（可能会因为网络原因，图片无法在规定的时间内加载完毕而生成错误的文章目录）
+                        self.titles = self.getTitles();  
+                    },500);
+                })
             })
         },
     }
