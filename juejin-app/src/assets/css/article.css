@@ -513,7 +513,6 @@ a{
     box-sizing: border-box;
     position: relative;
     color: #515767;
-
 }
 .a-container{
     height: 44px;
@@ -523,6 +522,10 @@ a{
     line-height: 44px;
     padding-left: 5px;
     box-sizing: border-box;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 
 }
 .a-container:hover{
