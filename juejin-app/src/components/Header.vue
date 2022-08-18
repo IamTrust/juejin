@@ -240,19 +240,4 @@
 
 <style scoped>
 
-    /* .v-enter-active{
-        animation: showHeader .3s linear;
-    }
-    .v-leave-active{
-        animation: showHeader .3s linear reverse;
-    }
-
-    @keyframes showHeader{
-        from{
-            transform: translateY(-60px);
-        }
-        to{
-            transform: translateY(0px);
-        }
-    } */
 </style>
