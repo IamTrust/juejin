@@ -9,7 +9,7 @@ export default new VueRouter({
         path: "/",
         component: () => import("../pages/Index"),
         meta: {
-            title: '主页'
+            title: '掘金'
         }
     }, {
         path: "/detail/:articleId",
