@@ -436,6 +436,8 @@
                 this.articleDetail = resp.data.data.articleDetail;
                 this.zanObj.number = this.articleDetail.diggCount;
                 this.articleTime = timeDispose.setArticleTiem(this.articleDetail.ctime* 1000);
+                // 页面title
+                document.title = this.articleDetail.title;
             })
             // 文章标签信息
             articleApi.getArticleTagsById(this.articleDetail.articleId).then(resp => {
