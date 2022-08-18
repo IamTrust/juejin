@@ -46,8 +46,6 @@ cd juejin-app
 
 ```
 npm install
-
-npm i element-ui -S  : Element组件库
 ```
 
 #### 启动服务器
@@ -60,5 +58,8 @@ npm run serve
 
 http://localhost:8080
 
-![](https://pictures-1312398124.cos.ap-guangzhou.myqcloud.com/20220807173544.png)
+- 主页
+![](./image/index.png)
+- 文章页
+![](./image/article.png)
 

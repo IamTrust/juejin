@@ -35,8 +35,7 @@ let timeInterval = function(dateTime){
 // 显示上午好 下午好 晚上好
 let newTime = function(){
     let date = new Date();
-    // let h = date.getHours();
-    let h =20
+    let h = date.getHours();
     if(h < 12 && h>=6){
         return '上午好'
     }else if(h < 18 && h>=12){
