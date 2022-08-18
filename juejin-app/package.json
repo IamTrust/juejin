@@ -27,7 +27,8 @@
     "tb-skeleton": "^0.3.6",
     "vue": "^2.6.14",
     "vue-loading-skeleton": "^1.1.9",
-    "vue-router": "^3.5.4"
+    "vue-router": "^3.5.4",
+    "vue-wechat-title": "^2.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
