@@ -71,11 +71,12 @@
 
             <!-- 右侧信息栏 -->
             <div class="sidebar">
+                <!-- 签到信息 -->
                 <div class="signin__top">
                     <div class="first__line">
                         <div class="icon__text">
                             <img src="../assets/img/day.png" alt="">
-                            下午好!
+                            {{showTimeStage}}
                         </div>
                         <button class="signedin__btn">
                             已签到
@@ -85,12 +86,15 @@
                         你已经连续签到<span style="color:#1e80ff; font-size: 16px;">100</span>天
                     </div>
                 </div>
+                <!-- 广告 -->
                 <div class="sidebar__block">
                     <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0b6a58397c77485495a051142f1d863d~tplv-k3u1fbpfcp-no-mark:480:400:0:0.awebp?" alt="">
                 </div>
+                <!-- 广告 -->
                 <div class="sidebar__block">
                     <img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a88a1ea956734105a5b002dfb48840cb~tplv-k3u1fbpfcp-no-mark:480:400:0:0.awebp?" alt="">
                 </div>
+                <!-- 掘金官网链接 -->
                 <div class="block-body">
                     <img src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/img/home.59780ae.png" alt="">
                     <div class="block-body-text">
@@ -98,7 +102,8 @@
                         <div>一个帮助开发者成长的社区</div>
                     </div>
                 </div>
-                <div class="sidebar__block user-top">
+                <!-- 作者榜 -->
+                <div class="user-body user-top">
                     <div class="header-block">🎖️作者榜</div>
                     <div class="user-list">
                         <div class="item">
@@ -134,33 +139,90 @@
                     </div>
                 </div>
 
+                <!-- 悬浮信息栏 -->
+                <transition name="el-fade-in-linear" >
+                <div class="suspended" v-show="show" ref="suspendBox">
+                    <div class="signin__top ">
+                        <div class="first__line">
+                            <div class="icon__text">
+                                <img src="../assets/img/day.png" alt="">
+                                {{showTimeStage}}
+                            </div>
+                            <button class="signedin__btn">
+                                已签到
+                            </button>
+                        </div>
+                        <div class="second__line">           
+                            你已经连续签到<span style="color:#1e80ff; font-size: 16px;">100</span>天
+                        </div>
+                    </div>
+                    <div class="sidebar__block user-top ">
+                        <div class="header-block">🎖️作者榜</div>
+                        <div class="user-list">
+                            <div class="item">
+                                <div class="item__img-box">
+                                    <img src="https://p3-passport.byteacctimg.com/img/mosaic-legacy/3792/5112637127~300x300.image" alt="">
+                                </div>
+                                <div class="item__user-info">
+                                    小明同学
+                                    <img src="../assets/img/lv-2.png" alt="">
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="item__img-box">
+                                    <img src="https://p9-passport.byteacctimg.com/img/mosaic-legacy/3793/3131589739~300x300.image" alt="">
+                                </div>
+                                <div class="item__user-info">
+                                    工匠若水
+                                    <img src="../assets/img/lv-2.png" alt="">
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="item__img-box">
+                                    <img src="https://p9-passport.byteacctimg.com/img/mosaic-legacy/3796/2975850990~300x300.image" alt="">
+                                </div>
+                                <div class="item__user-info">
+                                    固体物质搬运工
+                                    <img src="../assets/img/lv-2.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="author-list">
+                            完整榜单&nbsp;&nbsp;>
+                        </div>
+                    </div>
+                </div>
+                </transition>
+
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import "../assets/css/page__header.css"
-    import "../assets/css/page__main.css"
+    import "../assets/css/header.css"
+    import "../assets/css/main.css"
     import Header from '../components/Header'
     import article from "../api/article"
     import eventBus from "../assets/js/EventBus"
+    import timeDispose from "../utils/timeDispose"
 
     export default {
         data() {
             return {
                 loading: true,
                 articleInfoList: [],
-                current: 1, // 当前页
+                current: 1,  // 当前页
                 limit: 20,   // 每页记录数
 
                 itemHeight: 136,//每一列的高度
                 showNum: 10,//显示几条数据
                 start: 0,//滚动过程显示的开始索引
                 end: 10,//滚动过程显示的结束索引
-
-                screenWidth: document.body.clientWidth,//获取屏幕宽度
-                color: true
+                
+                color: true,
+                show: false,
+                headerNavSign: true
             }
         },
         components: {
@@ -172,25 +234,30 @@
         },
         computed: {
             //显示的数组，用计算属性计算
-            showList(){  return this.articleInfoList.slice(this.start, this.end);  }
+            showList(){  return this.articleInfoList.slice(this.start, this.end);  },
+            // 显示上午好 下午好 晚上好
+            showTimeStage(){ return timeDispose.newTime() }
+
         },
         methods: {
-            // 计算呈现在页面上列表开头和结尾的位置
+            // 计算文章列表呈现在页面上开头和结尾的位置
             scrollListener(scrollTop){
-                // //计算总的数据需要的高度，构造滚动条高度
+                //计算总的数据需要的高度，构造滚动条高度
                 this.$refs.scrollBar.style.height = this.itemHeight * this.articleInfoList.length + 'px';
                 //开始的数组索引
                 let first = Math.floor(scrollTop / this.itemHeight) - 1;
-                if(first<0){
-                    this.start = 0;
-                }else{
-                    this.start = first
-                }
+                this.start = first<0 ? 0 : first
+                // if(first<0){
+                //     this.start = 0;
+                // }else{
+                //     this.start = first
+                // }
                 //结束索引
                 this.end = this.start + this.showNum;
                 //定位列表的顶部的偏移量
                 this.$refs.list.style.marginTop = this.start * this.itemHeight + 'px';
             },
+
             // 获取数据
             getArticleInfoList(current, limit){
                 if (current) this.current = current
@@ -198,7 +265,8 @@
                 article.getArticleInfo(this.current, this.limit).then(resp => {
                     let arr = resp.data.data.article_info;
                     arr.forEach((e,i)=>{
-                        arr[i].mtime = this.getLocalTime(e.mtime);
+                        // arr[i].mtime = this.getLocalTime(e.mtime);
+                        arr[i].mtime = timeDispose.timeInterval(e.mtime);
                         arr[i].viewCount = this.setAction(e.viewCount,1);
                         arr[i].diggCount = this.setAction(e.diggCount,2);
                         arr[i].commentCount = this.setAction(e.commentCount,3);
@@ -217,6 +285,7 @@
                     })
                 })
             },
+
             // 滚动到底部后加载数据
             lasyLoading() {
                 let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
@@ -227,40 +296,20 @@
                     this.getArticleInfoList()
                 }
                 this.scrollListener(scrollTop);
-            },
-            // 时间戳转为距今多久
-            getLocalTime(dateTime) {
-                // 如果为null,则格式化当前时间
-                if (!dateTime) dateTime = Number(new Date());
-                // 如果dateTime长度为10或者13，则为秒和毫秒的时间戳，如果超过13位，则为其他的时间格式
-                if (dateTime.toString().length == 10) dateTime *= 1000;
-                let timestamp = +new Date(Number(dateTime));
-        
-                let timer = (Number(new Date()) - timestamp) / 1000;
-                // 如果小于5分钟,则返回"刚刚",其他以此类推
-                let tips = '';
-                switch (true) {
-                    case timer < 300:
-                        tips = '刚刚';
-                        break;
-                    case timer >= 300 && timer < 3600:
-                        tips = parseInt(timer / 60) + '分钟前';
-                        break;
-                    case timer >= 3600 && timer < 86400:
-                        tips = parseInt(timer / 3600) + '小时前';
-                        break;
-                    case timer >= 86400 && timer < 2592000:
-                        tips = parseInt(timer / 86400) + '天前';
-                        break;
-                    default:
-                        if (timer >= 2592000 && timer < 365 * 86400) {
-                            tips = parseInt(timer / (86400 * 30)) + '个月前';
-                        } else {
-                            tips = parseInt(timer / (86400 * 365)) + '年前';
-                        }
+                this.show = scrollTop > 1000 ? true : false;
+
+                // 通过事件总线监听消息
+                eventBus.$on('pushMsg', (children1Msg) => {
+                    this.headerNavSign = children1Msg
+                })
+                if(this.headerNavSign){
+                    this.$refs.suspendBox.style.marginTop = '0px';
+                }else{
+                    this.$refs.suspendBox.style.marginTop = '-60px'
                 }
-                return tips; 
+
             },
+
             // 将浏览、点赞、评论数缩写
             setAction(num,type){
                 if(num == 0 && type == 1){
@@ -280,40 +329,10 @@
             }
         },
         watch:{
-            screenWidth(val){
-                // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
-                if(!this.timer){
-                    // 一旦监听到的screenWidth值改变，就将其重新赋给data里的screenWidth
-                    this.screenWidth = val
-                    this.timer = true
-                    let that = this
-                    setTimeout(function(){
-                        // 打印screenWidth变化的值
-                        // console.log(that.screenWidth)
-                        if(that.screenWidth < 960){
-                            that.$refs.tagContent.style.width = that.screenWidth + 'px';
-                            that.$refs.tagManage.style.display = 'none';
-
-                        }else{
-                            that.$refs.tagContent.style.width = '960px';
-                            that.$refs.tagManage.style.display = 'flex';
-                        }
-                        if(that.screenWidth < 660){
-                            that.$refs.tagContent.style.width = '660px';
-                        }
-                        that.timer = false;
-                    },400)
-                }
-            }
+            
         },
         mounted () {
-            const self = this;
-            window.onresize = () => {
-                return (() => {
-                    window.screenWidth = document.body.clientWidth
-                    self.screenWidth = window.screenWidth
-                })()
-            }
+            
         },
         // 监听滚动到底部事件
         created() {
@@ -335,5 +354,15 @@
     }
     .router-link-exact-active{
         color: #86909c;
+    }
+
+    .suspended{
+        width: 240px;
+        position: fixed;
+        top: 130px;
+        transition: all .3s linear;
+    }
+    .suspended>div{
+        margin-bottom: 20px;
     }
 </style>

@@ -137,7 +137,7 @@
 </template>
 
 <script>
-    import "../assets/css/page__header.css"
+    import "../assets/css/header.css"
     import eventBus from "../assets/js/EventBus"
 
     export default {

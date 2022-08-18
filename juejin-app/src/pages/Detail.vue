@@ -91,7 +91,7 @@
                             <div class="comment-item">
                                 <div class="comment-userImg">
                                     <a href="" class="userImg">
-                                        <img src="../assets/img/user.png" alt="">
+                                        <img src="https://p9-passport.byteacctimg.com/img/mosaic-legacy/3791/5035712059~300x300.image" alt="">
                                     </a>
                                 </div>
                                 <div class="comment-content">
@@ -100,42 +100,13 @@
                                             <span class="name">青山绿水长流</span>
                                             <span class="level"><img src="../assets/img/lv-2.png" alt=""></span>
                                             <span class="jueyou-level"><img src="../assets/img/jy.png" alt=""></span>
-                                            <span class="position">移动端开发</span>
+                                            <span class="position">前端开发</span>
                                             <span class="time">1个月</span>
                                         </div>
-                                        <div class="content-main">hi，想问你一个问题，flutter如何做长截屏？</div>
+                                        <div class="content-main">高级程序员的表现形式</div>
                                         <div class="comment-action-box">
                                             <div class="item-zan">
-                                                <img src="../assets/img/zan__off.png" alt="">点赞
-                                            </div>
-                                            <div class="item-comNum">
-                                                <img src="../assets/img/ping.png" alt="">回复
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="subcomment-wrapper"></div>
-                                </div>
-                            </div>
-
-                            <div class="comment-item">
-                                <div class="comment-userImg">
-                                    <a href="" class="userImg">
-                                        <img src="../assets/img/user.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="comment-content">
-                                    <div class="comment-main">
-                                        <div class="user-box">
-                                            <span class="name">青山绿水长流</span>
-                                            <span class="level"><img src="../assets/img/lv-2.png" alt=""></span>
-                                            <span class="jueyou-level"><img src="../assets/img/jy.png" alt=""></span>
-                                            <span class="position">移动端开发</span>
-                                            <span class="time">1个月</span>
-                                        </div>
-                                        <div class="content-main">hi，想问你一个问题，flutter如何做长截屏？</div>
-                                        <div class="comment-action-box">
-                                            <div class="item-zan">
-                                                <img src="../assets/img/zan__off.png" alt="">点赞
+                                                <img src="../assets/img/zan__off.png" alt="">211
                                             </div>
                                             <div class="item-comNum">
                                                 <img src="../assets/img/ping.png" alt="">回复
@@ -152,13 +123,13 @@
                     <div class="comment-list-wrapper">
                         <div class="title">
                             <span>全部评论</span>
-                            <span>&nbsp;&nbsp;11</span>
+                            <span>&nbsp;&nbsp;1</span>
                         </div>
                         <div class="list">
                             <div class="comment-item">
                                 <div class="comment-userImg">
                                     <a href="" class="userImg">
-                                        <img src="../assets/img/user.png" alt="">
+                                        <img src="https://p9-passport.byteacctimg.com/img/mosaic-legacy/3791/5035712059~300x300.image" alt="">
                                     </a>
                                 </div>
                                 <div class="comment-content">
@@ -170,10 +141,10 @@
                                             <span class="position">移动端开发</span>
                                             <span class="time">1个月</span>
                                         </div>
-                                        <div class="content-main">hi，想问你一个问题，flutter如何做长截屏？</div>
+                                        <div class="content-main">高级程序员的表现形式</div>
                                         <div class="comment-action-box">
                                             <div class="item-zan">
-                                                <img src="../assets/img/zan__off.png" alt="">点赞
+                                                <img src="../assets/img/zan__off.png" alt="">211
                                             </div>
                                             <div class="item-comNum">
                                                 <img src="../assets/img/ping.png" alt="">回复
@@ -216,11 +187,8 @@
                 </div>
 
                 <!-- 文章目录 -->
-                <div class="sticky-block-box activeBox" :class="stickyStatus" ref="stickyBox" style="margin-top: 60px;">
+                <div class="sticky-block-box activeBox" :class="stickyStatus" ref="stickyBox" style="margin-top: 60px;" v-if="titlesLen">
                     <div class="sticky-title">目录</div>
-
-                    
-
                     <!-- 目录主体 -->
                     <div class="sticky-content" ref="stickyContentBox">
                         <el-skeleton :rows="3" animated class="listSkeleton" v-if="loading" />
@@ -267,6 +235,7 @@
     import '../assets/css/article.css'
     import Header from '../components/Header'
     import articleApi from '../api/article'
+    import timeDispose from '../utils/timeDispose'
     import eventBus from "../assets/js/EventBus"
     import { Editor, Viewer } from '@bytemd/vue'
     import zhHans from 'bytemd/lib/locales/zh_Hans.json'
@@ -298,9 +267,7 @@
                 titlesLen: null,
                 currentTitle: 0,
 
-                imgStatus: true,
-                articleContent: {},
-                firstTag: '',
+                firstTag: '', //文章标签
 
                 value: '', // 获取的markdow文档内容
                 zhHans,//中文配置
@@ -313,46 +280,29 @@
             Viewer
         },
         methods: {
-            // 格式化文章时间
-            setArticleTiem(time){
-                let date = new Date(time);
-                let Y = date.getFullYear();
-                let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1);
-                let D = date.getDate();
-                let h = date.getHours() + ':';
-                let m = date.getMinutes();
-                return `${Y}年${M}月${D}日 ${h}${m}`;
-            },
-            // 获取文章标题结构
-            getTitles() {
-                let titles = [];
-                let levels = ["h1", "h2", "h3"];
+            // 获取文章目录结构
+            getTitles(article) {                  // 形参为文章的DOM节点
+                let titles = [];                  // 存放文章目录结构
+                let levels = ["h1", "h2", "h3"];  // 标题标签
 
-                let articleElement = this.$refs.articleBox.children[0];
+                let articleElement = article;
+                if (!articleElement) return titles;
 
-                if (!articleElement) {
-                    return titles;
+                let elements = Array.from(articleElement.querySelectorAll("*"));// 获取文章的中所用标签
+                let tagNames = new Set(elements.map((el) => el.tagName.toLowerCase()));// 标签去重
+               
+                for (let i = levels.length - 1; i >= 0; i--) {    // 将不存在的标题标签移除
+                    if (!tagNames.has(levels[i])) levels.splice(i, 1);
                 }
 
-                let elements = Array.from(articleElement.querySelectorAll("*"));
-
-                // 调整标签等级
-                let tagNames = new Set(
-                    elements.map((el) => el.tagName.toLowerCase())
-                );
-                for (let i = levels.length - 1; i >= 0; i--) {
-                    if (!tagNames.has(levels[i])) {
-                        levels.splice(i, 1);
-                    }
-                }
-
-                let serialNumbers = levels.map(() => 0);
+                let titleId = 0;
                 for (let i = 0; i < elements.length; i++) {
                     const element = elements[i];
                     let tagName = element.tagName.toLowerCase();
-                    let level = levels.indexOf(tagName);
-                    if (level == -1) continue;
+                    let level = levels.indexOf(tagName);  // 标题标签在 levels 中的索引值就代表标签的等级
+                    if (level == -1) continue;// 不是标题标签不做处理，像 <p> <img> 等等
 
+                    
                     let id = tagName + "-" + element.innerText + "-" + i;
                     let node = {
                         id,
@@ -360,20 +310,20 @@
                         parent: null,
                         children: [],
                         rawName: element.innerText,
-                        scrollTop: element.offsetTop
+                        scrollTop: element.offsetTop,  // 文章页面滚动时，根据 scrollTop 高度判断当前为哪个标题
+                        currentTitleId: titleId++
                     };
 
                     if (titles.length > 0) {
-                        let lastNode = titles.at(-1);
+                        let lastNode = titles.at(-1); // 取 titles 数组最后一个元素
 
-                        // 遇到子标题
+                        // 遇到子标题（设置为子节点）
                         if (lastNode.level < node.level) {
                             node.parent = lastNode;
                             lastNode.children.push(node);
                         }
-                        // 遇到上一级标题
+                        // 遇到上一级标题（找到他的父节点）
                         else if (lastNode.level > node.level) {
-                            serialNumbers.fill(0, level + 1);
                             let parent = lastNode.parent;
                             while (parent) {
                                 if (parent.level < node.level) {
@@ -384,24 +334,17 @@
                                 parent = parent.parent;
                             }
                         }
-                        // 遇到平级
+                        // 遇到平级（设置为兄弟节点）
                         else if (lastNode.parent) {
                             node.parent = lastNode.parent;
                             lastNode.parent.children.push(node);
                         }
                     }
 
-                    serialNumbers[level] += 1;
-                    let serialNumber = serialNumbers.slice(0, level + 1).join(".");
 
                     node.isVisible = node.parent == null;
-                    node.name = serialNumber + ". " + element.innerText;
                     titles.push(node);
                 }
-                for(let i=0; i<titles.length; i++){
-                    titles[i].currentTitleId = i;
-                }
-                // console.log(titles);
                 this.titlesLen = titles.length;
                 return titles;
             },
@@ -441,18 +384,15 @@
                 }
             },
 
-            // 设置目录的滚动事件
+            // 设置文章的滚动事件，目录响应
             setStickyBox(){
                 if(!this.timer){
-                    this.timer = true
-                    let that = this
+                    this.timer = true;
+                    let that = this;
                     let num = 0;
                     setTimeout(function(){
-                        for (let item of that.titles) {
-                            if (item.scrollTop <= window.scrollY) {
-                                num++;
-                            }
-                        }
+                        for (let item of that.titles) 
+                            if (item.scrollTop <= window.scrollY) num++;
                         that.currentTitle = num >= that.titlesLen ? that.titlesLen-1 : num
                         that.$refs.stickyContentBox.scrollTo({ top: num * 44 - 20, behavior: "smooth" });
                         that.timer = false;
@@ -467,9 +407,7 @@
 
             // 设置文章的风格
             articleStyle(arr){
-                // console.log(arr);
                 for(let i=0; i<arr.length; i++){
-                    console.log(i);
                     if(/theme/g.test(arr[i])){
                         let fg = arr[i].split(':')[1].trim();
                         import(`juejin-markdown-themes/dist/${fg}.min.css`)
@@ -497,7 +435,7 @@
             articleApi.getArticleDetailById(this.articleDetail.articleId).then(resp => {
                 this.articleDetail = resp.data.data.articleDetail;
                 this.zanObj.number = this.articleDetail.diggCount;
-                this.articleTime = this.setArticleTiem(this.articleDetail.ctime* 1000);
+                this.articleTime = timeDispose.setArticleTiem(this.articleDetail.ctime* 1000);
             })
             // 文章标签信息
             articleApi.getArticleTagsById(this.articleDetail.articleId).then(resp => {
@@ -505,12 +443,14 @@
                 let arr = this.articleDetail.tags;
                 this.firstTag = arr[0];
                 this.articleDetail.tags.shift();
+                if(this.articleDetail.tags.length == 0){
+                    this.articleDetail.tags = null;
+                }
             })
             // 文章内容
             articleApi.getArticleContentById(this.articleDetail.articleId).then(resp => {
                 
                 let result = resp.data.data.articleContent;
-                console.log(result);
 
                 let styleArr = result.split('\\n');
                 this.articleStyle(styleArr);//设置文章的风格
@@ -532,8 +472,10 @@
                     // 得到文章目录列表
                     let self = this;
                     setTimeout(() => {
-                        //等待文章中的图片加载完毕，再获取DOM节点生成文章目录（可能会因为网络原因，图片无法在规定的时间内加载完毕而生成错误的文章目录）
-                        self.titles = self.getTitles();  
+                        // 等待文章中的图片加载完毕，再获取DOM节点生成文章目录（
+                        // 可能会因为网络原因，图片无法在规定的时间内加载完毕而生成错误的文章目录）
+                        let article = this.$refs.articleBox.children[0];
+                        self.titles = self.getTitles(article);  
                     },500);
                 })
             })
