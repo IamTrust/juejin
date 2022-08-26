@@ -30,20 +30,6 @@ public class ArticleInfoController {
      */
     @GetMapping("/find_article/{current}/{limit}")
     public Result findIndexArticle(@PathVariable Integer current, @PathVariable Integer limit) {
-//        Page<ArticleInfo> page = new Page<>(current, limit);
-//        articleInfoService.page(page, null);
-//        return Result.success().data("article_info", page.getRecords());
-        return Result.success().data("article_info", articleInfoService.queryArticleInfoList(current, limit));
-    }
-
-    /**
-     * test接口
-     * @param current
-     * @param limit
-     * @return
-     */
-    @GetMapping("/find_article_info_items/{current}/{limit}")
-    public Result findIndexArticleInfoItems(@PathVariable Integer current, @PathVariable Integer limit) {
         return Result.success().data("article_info", articleInfoService.queryArticleInfoList(current, limit));
     }
 
